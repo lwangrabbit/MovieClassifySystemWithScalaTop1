@@ -13,7 +13,7 @@ class FilmClassifySystemTest extends FunSpec with Matchers {
 
     describe("Add Film |") {
       it("should succeed when film is valid") {
-        val film = "The valid film name"
+        val film = "The film with valid name"
         val filmSystem = new FilmClassifySystem()
 //        filmSystem.addFilm(film)
         filmSystem.getFilm(film) should be(film)
