@@ -27,6 +27,8 @@ class FilmClassifySystem {
 
   def listFilm = films
 
+  def listFilmByCategory(category: String) = films.filter(category == _.category)
+
   private def isFilmValid(name: String, category: String) = {
     isFilmNameValid(name) && isFilmCategoryValid(category)
   }

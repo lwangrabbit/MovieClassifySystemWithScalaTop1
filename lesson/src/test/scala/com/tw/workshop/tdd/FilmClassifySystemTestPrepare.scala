@@ -27,6 +27,8 @@ trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAnd
 
   def listFilm = filmSystem.listFilm
 
+  def listFilmByCategory(category: String) = filmSystem.listFilmByCategory(category)
+
   override protected def beforeEach(): Unit = {
     super.beforeEach()
     filmSystem = new FilmClassifySystem()

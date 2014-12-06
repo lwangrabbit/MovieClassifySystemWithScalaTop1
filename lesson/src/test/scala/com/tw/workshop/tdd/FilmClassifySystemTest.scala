@@ -105,6 +105,45 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       }
     }
 
+    describe("List Film By Category |") {
+      it("should succeed when category is valid") {
+        val filmNames = List("The film other", "The film humor 1", "The film humor 2", "The film love")
+        val categories = List("OTHER", "HUMOR", "HUMOR", "LOVE")
+        filmNames.zip(categories).foreach( para => {
+          val (filmName, filmCategory) = (para._1, para._2)
+          addFilm(filmName, filmCategory)})
+
+        listFilm.length should be (filmNames.length)
+
+        var films = listFilmByCategory("OTHER")
+        films.length should be (1)
+        films.head.filmName should be ("The film other")
+
+        films = listFilmByCategory("HUMOR")
+        films.length should be (2)
+        films.exists("The film humor 1" == _.filmName)
+        films.exists("The film humor 2" == _.filmName)
+
+        films = listFilmByCategory("LOVE")
+        films.length should be (1)
+        films.head.filmName should be ("The film love")
+      }
+
+      it("should succeed when category is valid and without film") {
+        val categories = List("OTHER", "HUMOR", "HUMOR", "LOVE")
+        categories.foreach( listFilmByCategory(_).length should be (0) )
+      }
+
+      it("should succeed when category is invalid") {
+        val filmNames = List("The film other", "The film humor 1", "The film humor 2", "The film love")
+        val categories = List("OTHER", "HUMOR", "HUMOR", "LOVE")
+        filmNames.zip(categories).foreach( para => {
+          val (filmName, filmCategory) = (para._1, para._2)
+          addFilm(filmName, filmCategory)})
+
+        listFilmByCategory("HUMORxx").length should be (0) 
+      }
+    }
 
 
   }
