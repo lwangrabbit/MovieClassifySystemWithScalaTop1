@@ -7,23 +7,10 @@ class FilmClassifySystem {
   private var films: List[Film] = List()
 
   def addFilm(filmName: String) {
-    films = Film(filmName) :: films
+    films = new Film(filmName) :: films
   }
 
-  def getFilm(name: String): Option[Film] = {
-    val film = films.find(f => f.filmName == name)
-    if (film.isDefined) film else None
-  }
+  def getFilmByName(name: String) = films.find(f => f.filmName == name)
 
 }
 
-
-object Film {
-  def apply(filmName: String) = {
-    new Film(filmName)
-  }
-}
-
-class Film(val filmName: String) {
-
-}

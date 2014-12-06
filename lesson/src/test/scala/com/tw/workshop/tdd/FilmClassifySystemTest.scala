@@ -2,7 +2,6 @@ package com.tw.workshop.tdd
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.{BeforeAndAfterEach, Matchers, FunSpec}
 
 /**
  * Created by root on 12/6/14.
@@ -12,9 +11,11 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
   describe("Film Classify System |") {
 
     describe("Add Film |") {
-      it("should succeed when film is valid") {
-        val film = "The film with valid name"
-        addFilm(film).getFilm(film).isDefined should be(true)
+      it("should succeed when film name is valid") {
+        val filmName = "The film with valid name"
+        val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
+        acquiredFilm should not be(None)
+        acquiredFilm.get.filmName should be (filmName)
       }
 
     }
@@ -22,15 +23,3 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
   }
 }
 
-trait FilmClassifySystemTestPrepare extends FunSpec with Matchers {
-  var filmSystem = new FilmClassifySystem()
-
-  def addFilm(name: String) = {
-    filmSystem.addFilm(name)
-    this
-  }
-
-  def getFilm(name: String) = {
-    filmSystem.getFilm(name)
-  }
-}
