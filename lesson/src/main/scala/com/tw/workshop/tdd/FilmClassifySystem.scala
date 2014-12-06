@@ -17,6 +17,11 @@ class FilmClassifySystem {
       getFilmByName(originalName).fold()(_.filmName = modifiedName)
     }
   }
+  def modifyFilmCategory(filmName: String, modifiedCategory: String) = {
+    if (isFilmCategoryValid(modifiedCategory)) {
+      getFilmByName(filmName).fold()(_.category = modifiedCategory)
+    }
+  }
 
   def getFilmByName(name: String) = films.find(name == _.filmName)
 

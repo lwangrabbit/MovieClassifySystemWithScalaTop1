@@ -18,6 +18,11 @@ trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAnd
     this
   }
 
+  def modifyFilmCategory(filmName: String, modifiedCategory: String) = {
+    filmSystem.modifyFilmCategory(filmName, modifiedCategory)
+    this
+  }
+
   def getFilmByName(name: String) = filmSystem.getFilmByName(name)
 
   def listFilm = filmSystem.listFilm

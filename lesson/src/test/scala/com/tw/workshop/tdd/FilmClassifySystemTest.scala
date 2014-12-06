@@ -85,6 +85,26 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       }
     }
 
+    describe("Modify Film Category |") {
+      it("should succeed when category is valid") {
+        val (filmName, filmCategory) = ("The film with valid category", "HUMOR")
+        val acquiredFilm = addFilm(filmName)
+                          .modifyFilmCategory(filmName, filmCategory)
+                          .getFilmByName(filmName)
+        acquiredFilm should not be(None)
+        acquiredFilm.get.category should be (filmCategory)
+      }
+
+      it("should fail when category is invalid") {
+        val (filmName, filmCategory) = ("The film with invalid category", "HUMORxx")
+        val acquiredFilm = addFilm(filmName)
+                          .modifyFilmCategory(filmName, filmCategory)
+                          .getFilmByName(filmName)
+        acquiredFilm should not be(None)
+        acquiredFilm.get.category should be ("OTHER")
+      }
+    }
+
 
 
   }
