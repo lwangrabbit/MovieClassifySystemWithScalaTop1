@@ -7,7 +7,7 @@ class FilmClassifySystem {
   private var films: List[Film] = List()
 
   def addFilm(name: String, category: String = "OTHER") {
-    if (isFilmNameValid(name)) {
+    if (isFilmValid(name, category)) {
       films = new Film(name, category) :: films
     }
   }
@@ -22,13 +22,22 @@ class FilmClassifySystem {
 
   def listFilm = films
 
-  private def isFilmNameValid(name: String) = {
-    val filmNameValidator = new InputValidator(List(
-      new nameInvalidCharValidator(),
-      new nameEmptyValidator(),
-      new nameDuplicateValidator(films)))
+  private def isFilmValid(name: String, category: String) = {
+    isFilmNameValid(name) && isFilmCategoryValid(category)
+  }
 
-    filmNameValidator.validate(name)
+  private def isFilmNameValid(name: String) = {
+    val nameValidator = new NameValidator(List(
+          new NameInvalidCharValidator(),
+          new NameEmptyValidator(),
+          new NameDuplicateValidator(films)))
+    nameValidator.validate(name)
+  }
+
+  private def isFilmCategoryValid(category: String) = {
+    val categoryValidator = new CategoryValidator(List(
+          new CategoryValidValidator()))
+    categoryValidator.validate(category)
   }
 }
 

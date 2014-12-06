@@ -61,10 +61,14 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
     describe("Add Film with Category |") {
       it("should succeed when category is valid") {
-        val (filmName, filmCategory) = ("The film with valid category", "HUMOR")
-        val acquiredFilm = addFilm(filmName, filmCategory).getFilmByName(filmName)
-        acquiredFilm should not be(None)
-        acquiredFilm.get.category should be (filmCategory)
+        val filmNames = List("The film 1", "The film 2", "The film 3", "The film 4")
+        val categories = List("OTHER", "HUMOR", "SCIENCE", "LOVE")
+        filmNames.zip(categories).foreach( para => {
+          val (filmName, filmCategory) = (para._1, para._2)
+          val acquiredFilm = addFilm(filmName, filmCategory).getFilmByName(filmName)
+          acquiredFilm should not be(None)
+          acquiredFilm.get.category should be (filmCategory)}
+        )
       }
 
       it("should succeed when category is not given") {
@@ -72,6 +76,12 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
         acquiredFilm should not be(None)
         acquiredFilm.get.category should be ("OTHER")
+      }
+
+      it("should fail when category is invalid") {
+        val (filmName, filmCategory) = ("The film with invalid category", "HUMORxx")
+        val acquiredFilm = addFilm(filmName, filmCategory).getFilmByName(filmName)
+        acquiredFilm should be(None)
       }
     }
 
