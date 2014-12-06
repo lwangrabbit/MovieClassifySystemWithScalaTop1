@@ -8,8 +8,8 @@ import org.scalatest.{BeforeAndAfterEach, Matchers, FunSpec}
 trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAndAfterEach {
   var filmSystem: FilmClassifySystem = null
 
-  def addFilm(name: String) = {
-    filmSystem.addFilm(name)
+  def addFilm(name: String, category: String = "OTHER") = {
+    filmSystem.addFilm(name, category)
     this
   }
 

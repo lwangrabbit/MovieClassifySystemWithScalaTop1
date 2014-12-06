@@ -6,9 +6,9 @@ package com.tw.workshop.tdd
 class FilmClassifySystem {
   private var films: List[Film] = List()
 
-  def addFilm(name: String) {
+  def addFilm(name: String, category: String = "OTHER") {
     if (isFilmNameValid(name)) {
-      films = new Film(name) :: films
+      films = new Film(name, category) :: films
     }
   }
 
