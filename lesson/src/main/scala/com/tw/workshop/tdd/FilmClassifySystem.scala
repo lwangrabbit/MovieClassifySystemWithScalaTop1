@@ -4,14 +4,26 @@ package com.tw.workshop.tdd
  * Created by root on 14-12-6.
  */
 class FilmClassifySystem {
-  private var films: List[String] = List()
+  private var films: List[Film] = List()
 
   def addFilm(filmName: String) {
-    films = filmName :: films
+    films = Film(filmName) :: films
   }
 
-  def getFilm(filmName: String) = {
-    if (films.exists(f => f == filmName)) filmName else ""
+  def getFilm(name: String): Option[Film] = {
+    val film = films.find(f => f.filmName == name)
+    if (film.isDefined) film else None
   }
+
+}
+
+
+object Film {
+  def apply(filmName: String) = {
+    new Film(filmName)
+  }
+}
+
+class Film(val filmName: String) {
 
 }
