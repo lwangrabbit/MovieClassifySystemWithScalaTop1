@@ -18,8 +18,14 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         acquiredFilm.get.filmName should be (filmName)
       }
 
-      it("should fail when film name isn`t valid([a-zA-Z0-9 ])") {
+      it("should fail when film name contains invalid char (not [a-zA-Z0-9 ])") {
         val filmName = "The film with invalid char(#)"
+        val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
+        acquiredFilm should be(None)
+      }
+
+      it("should fail when film name is empty") {
+        val filmName = ""
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
         acquiredFilm should be(None)
       }
