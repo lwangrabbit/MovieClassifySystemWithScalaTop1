@@ -1,0 +1,9 @@
+dependencies {
+    compile "org.scala-lang:scala-library:$scalaVersion"
+    testCompile "org.scalatest:scalatest_2.10:$scalatestVersion"
+    testCompile "org.scalacheck:scalacheck_2.10:$scalaCheckVersion"
+
+    testCompile("org.scalatra:scalatra-scalatest_2.10:$scalatraVersion") {
+        exclude module: 'javax.servlet'
+    }
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tw.workshop.tdd.ImmutableListTest" tests="4" failures="0" errors="0" timestamp="2014-12-06T15:57:39" hostname="gsmdev-VirtualBox" time="0.025">
+  <properties/>
+  <testcase name="immutable list method 1" classname="com.tw.workshop.tdd.ImmutableListTest" time="0.018"/>
+  <testcase name="immutable list method 1 with 2 elements" classname="com.tw.workshop.tdd.ImmutableListTest" time="0.0"/>
+  <testcase name="immutable list method 2" classname="com.tw.workshop.tdd.ImmutableListTest" time="0.003"/>
+  <testcase name="immutable list method 3" classname="com.tw.workshop.tdd.ImmutableListTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

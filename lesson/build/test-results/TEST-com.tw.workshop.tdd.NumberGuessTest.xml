@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tw.workshop.tdd.NumberGuessTest" tests="12" failures="0" errors="0" timestamp="2014-12-06T15:57:39" hostname="gsmdev-VirtualBox" time="0.025">
+  <properties/>
+  <testcase name="Number Guess -- normal situation Correct Guess" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.007"/>
+  <testcase name="Number Guess -- normal situation One number error" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.002"/>
+  <testcase name="Number Guess -- normal situation All number position error" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.0"/>
+  <testcase name="Number Guess -- normal situation One number position error" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.001"/>
+  <testcase name="Number Guess -- normal situation Two number position error" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.001"/>
+  <testcase name="Number Guess -- normal situation No number match" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.001"/>
+  <testcase name="Number Guess -- abnormal situation less number" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.001"/>
+  <testcase name="Number Guess -- abnormal situation too many number" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.001"/>
+  <testcase name="Number Guess -- abnormal situation Wrong digital" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.0"/>
+  <testcase name="Number Guess -- abnormal situation dupilicate numbers" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.001"/>
+  <testcase name="Create Random Num List four distinct number" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.001"/>
+  <testcase name="Create Random Num List Several numbers with same value" classname="com.tw.workshop.tdd.NumberGuessTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

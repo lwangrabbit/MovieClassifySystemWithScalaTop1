@@ -1,0 +1,57 @@
+apply plugin: 'java'
+apply plugin: 'scala'
+
+sourceCompatibility = 1.5
+version = '1.0'
+
+ext.scalaVersion = '2.10.3'
+ext.scalatestVersion = '2.0.1-SNAP'
+ext.scalatraVersion = '2.2.2'
+ext.joddVersion = '3.4.8'
+ext.scalaCheckVersion = '1.11.0'
+
+repositories {
+    maven {
+        url "http://10.62.97.45:8081/nexus/content/groups/public"
+    }
+}
+
+dependencies {
+    compile "org.scala-lang:scala-library:$scalaVersion"
+    testCompile "org.scalatest:scalatest_2.10:$scalatestVersion"
+    testCompile "org.scalacheck:scalacheck_2.10:$scalaCheckVersion"
+
+}
+
+subprojects {
+    group = 'com.tw.workshop'
+    version = '2.0.0'
+
+    apply plugin: 'java'
+    apply plugin: 'scala'
+
+    sourceCompatibility = 1.7
+
+    ext.scalaVersion = '2.10.3'
+    ext.scalatestVersion = '2.0.1-SNAP'
+    ext.scalatraVersion = '2.2.2'
+    ext.joddVersion = '3.4.8'
+    ext.scalaCheckVersion = '1.11.0'
+
+    repositories {
+
+        mavenCentral()
+        maven {
+            url "http://10.62.97.45:8081/nexus/content/groups/public"
+        }
+    }
+
+    dependencies {
+        compile "org.scala-lang:scala-library:$scalaVersion"
+        testCompile "org.scalatest:scalatest_2.10:$scalatestVersion"
+        testCompile "org.scalacheck:scalacheck_2.10:$scalaCheckVersion"
+
+    }
+
+}
+
