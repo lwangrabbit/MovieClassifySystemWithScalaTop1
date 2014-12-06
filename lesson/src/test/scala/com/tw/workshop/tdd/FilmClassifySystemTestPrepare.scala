@@ -15,4 +15,6 @@ trait FilmClassifySystemTestPrepare extends FunSpec with Matchers {
 
   def getFilmByName(name: String) = filmSystem.getFilmByName(name)
 
+  def listFilm = filmSystem.listFilm
+
 }

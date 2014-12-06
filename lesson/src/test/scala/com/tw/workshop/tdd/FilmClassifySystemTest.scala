@@ -30,6 +30,14 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         acquiredFilm should be(None)
       }
 
+      it("should fail when film already existed") {
+        val filmName = "The film already existed"
+        val acquiredFilms = addFilm(filmName).addFilm(filmName).listFilm
+        acquiredFilms.foreach(f => println(f.filmName))
+        acquiredFilms.length should be(2)
+        acquiredFilms.head.filmName should be (filmName)
+      }
+
     }
 
   }
