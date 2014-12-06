@@ -7,7 +7,12 @@ class FilmClassifySystem {
   private var films: List[Film] = List()
 
   def addFilm(name: String) {
-    if (!hasInvalidChar(name) && !isEmptyName(name) && !isExisted(name)) {
+    val filmNameValidator = new InputValidator(List(
+      new nameInvalidCharValidator(),
+      new nameEmptyValidator(),
+      new nameDuplicateValidator(films)))
+
+    if (filmNameValidator.validate(name)) {
       films = new Film(name) :: films
     }
   }
@@ -16,10 +21,8 @@ class FilmClassifySystem {
 
   def listFilm = films
 
-  private def hasInvalidChar(name: String) = name != """[a-zA-Z0-9 ]+""".r.findFirstIn(name).getOrElse("")
-
-  private def isEmptyName(name: String) = "" == name
-
-  private def isExisted(name: String) = films.exists(name == _.filmName)
 }
+
+
+
 
