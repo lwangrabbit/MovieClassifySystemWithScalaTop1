@@ -5,8 +5,8 @@ import org.scalatest.{BeforeAndAfterEach, Matchers, FunSpec}
 /**
  * Created by root on 14-12-6.
  */
-trait FilmClassifySystemTestPrepare extends FunSpec with Matchers {
-  var filmSystem = new FilmClassifySystem()
+trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAndAfterEach {
+  var filmSystem: FilmClassifySystem = null
 
   def addFilm(name: String) = {
     filmSystem.addFilm(name)
@@ -16,5 +16,10 @@ trait FilmClassifySystemTestPrepare extends FunSpec with Matchers {
   def getFilmByName(name: String) = filmSystem.getFilmByName(name)
 
   def listFilm = filmSystem.listFilm
+
+  override protected def beforeEach(): Unit = {
+    super.beforeEach()
+    filmSystem = new FilmClassifySystem()
+  }
 
 }

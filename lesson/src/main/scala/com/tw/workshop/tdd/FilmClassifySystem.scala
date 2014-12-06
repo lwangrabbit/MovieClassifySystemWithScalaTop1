@@ -7,8 +7,6 @@ class FilmClassifySystem {
   private var films: List[Film] = List()
 
   def addFilm(name: String) {
-    println("name: " + name)
-    println("is exist:" + films.exists(name == _.filmName))
     if (!hasInvalidChar(name) && !isEmptyName(name) && !isExisted(name)) {
       films = new Film(name) :: films
     }
