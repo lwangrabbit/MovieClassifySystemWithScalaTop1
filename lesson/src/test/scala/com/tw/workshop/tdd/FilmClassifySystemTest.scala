@@ -14,27 +14,26 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       it("should succeed when film name is valid") {
         val filmName = "The film with valid name"
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
-        acquiredFilm should not be(None)
-        acquiredFilm.get.name should be (filmName)
+        getFilmName(acquiredFilm) should be (filmName)
       }
 
       it("should fail when film name contains invalid char (not [a-zA-Z0-9 ])") {
         val filmName = "The film with invalid char(#)"
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
-        acquiredFilm should be(None)
+        isFilmExist(acquiredFilm) should be(false)
       }
 
       it("should fail when film name is empty") {
         val filmName = ""
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
-        acquiredFilm should be(None)
+        isFilmExist(acquiredFilm) should be(false)
       }
 
       it("should fail when film already existed") {
         val filmName = "The film already existed"
         val acquiredFilms = addFilm(filmName).addFilm(filmName).listFilm
         acquiredFilms.length should be(1)
-        acquiredFilms.head.name should be (filmName)
+        isFilmsContainName(acquiredFilms, filmName) should be (true)
       }
     }
 
@@ -44,8 +43,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         val acquiredFilm = addFilm(originalFilmName)
                           .modifyFilmName(originalFilmName, modifiedFilmName)
                           .getFilmByName(modifiedFilmName)
-        acquiredFilm should not be (None)
-        acquiredFilm.get.name should be(modifiedFilmName)
+        getFilmName(acquiredFilm) should be (modifiedFilmName)
       }
 
       it("should fail when film name is valid but existed") {
@@ -54,8 +52,8 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
                            .modifyFilmName(originalFilmName, existedFilmName)
                            .listFilm
         acquiredFilms.length should be(2)
-        acquiredFilms.exists(existedFilmName == _.name) should be (true)
-        acquiredFilms.exists(originalFilmName == _.name) should be (true)
+        isFilmsContainName(acquiredFilms, existedFilmName) should be (true)
+        isFilmsContainName(acquiredFilms, originalFilmName) should be (true)
       }
     }
 
@@ -66,22 +64,20 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         filmNames.zip(categories).foreach( para => {
           val (filmName, filmCategory) = (para._1, para._2)
           val acquiredFilm = addFilm(filmName, filmCategory).getFilmByName(filmName)
-          acquiredFilm should not be(None)
-          acquiredFilm.get.category should be (filmCategory)}
-        )
+          getFilmCategory(acquiredFilm) should be (filmCategory)
+        })
       }
 
       it("should succeed when category is not given") {
         val filmName = "The film without category"
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
-        acquiredFilm should not be(None)
-        acquiredFilm.get.category should be ("OTHER")
+        getFilmCategory(acquiredFilm) should be ("OTHER")
       }
 
       it("should fail when category is invalid") {
         val (filmName, filmCategory) = ("The film with invalid category", "HUMORxx")
         val acquiredFilm = addFilm(filmName, filmCategory).getFilmByName(filmName)
-        acquiredFilm should be(None)
+        isFilmExist(acquiredFilm) should be (false)
       }
     }
 
@@ -91,8 +87,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         val acquiredFilm = addFilm(filmName)
                           .modifyFilmCategory(filmName, filmCategory)
                           .getFilmByName(filmName)
-        acquiredFilm should not be(None)
-        acquiredFilm.get.category should be (filmCategory)
+        getFilmCategory(acquiredFilm) should be (filmCategory)
       }
 
       it("should fail when category is invalid") {
@@ -100,8 +95,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         val acquiredFilm = addFilm(filmName)
                           .modifyFilmCategory(filmName, filmCategory)
                           .getFilmByName(filmName)
-        acquiredFilm should not be(None)
-        acquiredFilm.get.category should be ("OTHER")
+        getFilmCategory(acquiredFilm) should be ("OTHER")
       }
     }
 
@@ -115,18 +109,18 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
         listFilm.length should be (filmNames.length)
 
-        var films = listFilmByCategory("OTHER")
-        films.length should be (1)
-        films.head.name should be ("The film other")
+        var acquiredFilms = listFilmByCategory("OTHER")
+        acquiredFilms.length should be (1)
+        isFilmsContainName(acquiredFilms, "The film other") should be (true)
 
-        films = listFilmByCategory("HUMOR")
-        films.length should be (2)
-        films.exists("The film humor 1" == _.name)
-        films.exists("The film humor 2" == _.name)
+        acquiredFilms = listFilmByCategory("HUMOR")
+        acquiredFilms.length should be (2)
+        isFilmsContainName(acquiredFilms, "The film humor 1") should be (true)
+        isFilmsContainName(acquiredFilms, "The film humor 2") should be (true)
 
-        films = listFilmByCategory("LOVE")
-        films.length should be (1)
-        films.head.name should be ("The film love")
+        acquiredFilms = listFilmByCategory("LOVE")
+        acquiredFilms.length should be (1)
+        isFilmsContainName(acquiredFilms, "The film love") should be (true)
       }
 
       it("should succeed when category is valid and without film") {
@@ -145,7 +139,18 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       }
     }
 
-
   }
+
+  private def getFilmName(film: Option[Film]) = film.fold("")(_.name)
+
+  private def getFilmCategory(film: Option[Film]) = film.fold("")(_.category)
+
+  private def isFilmExist(film: Option[Film]) = film.fold(false)(_ => true)
+
+  private def isFilmsContainName(films: List[Film], name: String) = {
+    if (films.exists(name == _.name)) true else false
+  }
+
+
 }
 
