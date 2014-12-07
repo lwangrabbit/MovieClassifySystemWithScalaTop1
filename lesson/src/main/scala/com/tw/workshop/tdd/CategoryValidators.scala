@@ -8,3 +8,8 @@ class CategoryValidValidator(categoryRules: CategoryRules) extends Validator {
   override def validate(category: String) = { categoryRules.categories.contains(category) }
 }
 
+class CategoryRules {
+  val categories = List("OTHER", "HUMOR", "SCIENCE", "LOVE")
+  val defaultCategory = "OTHER"
+}
+

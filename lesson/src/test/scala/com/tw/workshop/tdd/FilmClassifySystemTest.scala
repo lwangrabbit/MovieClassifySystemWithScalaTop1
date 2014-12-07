@@ -59,7 +59,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
     describe("Add Film with Category |") {
       it("should succeed when category is valid") {
-        categoryRules.categories.foreach(category => {
+        defaultCategories.foreach(category => {
           val (filmName, filmCategory) = ("The Film " + category, category)
           val acquiredFilm = addFilm(filmName, filmCategory).getFilmByName(filmName)
           getFilmCategory(acquiredFilm) should be (filmCategory)
@@ -69,7 +69,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       it("should succeed when category is not given") {
         val filmName = "The film without category"
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
-        getFilmCategory(acquiredFilm) should be (categoryRules.defaultCategory)
+        getFilmCategory(acquiredFilm) should be (defaultCategory)
       }
 
       it("should fail when category is invalid") {
@@ -93,7 +93,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         val acquiredFilm = addFilm(filmName)
                           .modifyFilmCategory(filmName, filmCategory)
                           .getFilmByName(filmName)
-        getFilmCategory(acquiredFilm) should be (categoryRules.defaultCategory)
+        getFilmCategory(acquiredFilm) should be (defaultCategory)
       }
     }
 
@@ -122,11 +122,11 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       }
 
       it("should empty when category is valid and without film") {
-        categoryRules.categories.foreach( listFilmByCategory(_).length should be (0) )
+        defaultCategories.foreach( listFilmByCategory(_).length should be (0) )
       }
 
       it("should empty when category is invalid") {
-        categoryRules.categories.foreach(category => {
+        defaultCategories.foreach(category => {
           val (filmName, filmCategory) = ("The Film " + category, category)
           addFilm(filmName, filmCategory)
         })

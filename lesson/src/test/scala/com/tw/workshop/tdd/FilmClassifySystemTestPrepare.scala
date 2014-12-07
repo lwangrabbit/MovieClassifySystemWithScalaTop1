@@ -7,11 +7,11 @@ import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, Matchers, FunSpec}
  */
 trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAndAfterEach with BeforeAndAfterAll{
   var filmSystem: FilmClassifySystem = null
-  var categoryRules: CategoryRules = new CategoryRules()
-//  var defaultCategories: List[String] = List()
-//  var defaultCategory = ""
+  val filmValidator = new FilmValidator()
+  val defaultCategory = filmValidator.categoryRules.defaultCategory
+  val defaultCategories = filmValidator.categoryRules.categories
 
-  def addFilm(name: String, category: String = categoryRules.defaultCategory) = {
+  def addFilm(name: String, category: String = defaultCategory) = {
     filmSystem.addFilm(name, category)
     this
   }
@@ -34,7 +34,7 @@ trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAnd
 
   override protected def beforeEach(): Unit = {
     super.beforeEach()
-    filmSystem = new FilmClassifySystem(categoryRules)
+    filmSystem = new FilmClassifySystem(filmValidator)
   }
 
 }
