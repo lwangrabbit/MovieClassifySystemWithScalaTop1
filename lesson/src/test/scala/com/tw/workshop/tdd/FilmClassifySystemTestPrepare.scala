@@ -10,6 +10,7 @@ trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAnd
   val filmValidator = new FilmValidator()
   val defaultCategory = filmValidator.categoryRules.defaultCategory
   val defaultCategories = filmValidator.categoryRules.categories
+  val defaultScores = filmValidator.scoreRules.scores
 
   def addFilm(name: String, category: String = defaultCategory) = {
     filmSystem.addFilm(name, category)
@@ -21,8 +22,13 @@ trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAnd
     this
   }
 
-  def modifyFilmCategory(filmName: String, modifiedCategory: String) = {
-    filmSystem.modifyFilmCategory(filmName, modifiedCategory)
+  def modifyFilmCategory(name: String, modifiedCategory: String) = {
+    filmSystem.modifyFilmCategory(name, modifiedCategory)
+    this
+  }
+
+  def scoreFilm(name: String, score: Int) = {
+    filmSystem.scoreFilm(name, score)
     this
   }
 

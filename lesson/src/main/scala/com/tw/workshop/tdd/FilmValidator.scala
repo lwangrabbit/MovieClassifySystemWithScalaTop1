@@ -4,10 +4,12 @@ package com.tw.workshop.tdd
  * Created by root on 14-12-7.
  */
 class FilmValidator() {
-  val categoryRules: CategoryRules = new CategoryRules()
+  val categoryRules = new CategoryRules()
+  val scoreRules = new ScoreRules
   val validators: Map[String, (String, List[Film]) => Boolean] =
     Map("name" -> nameValidator,
-        "category" -> categoryValidator)
+        "category" -> categoryValidator,
+        "score" -> scoreValidator)
 
   def nameValidator(name: String, films: List[Film]) = {
     val nameValidator = new ValueValidator(List(
@@ -19,6 +21,12 @@ class FilmValidator() {
     val categoryValidator = new ValueValidator(List(
       new CategoryValidValidator(categoryRules)))
     categoryValidator.validate(category)
+  }
+
+  def scoreValidator(score: String, films: List[Film]) = {
+    val scoreValidator = new ValueValidator(List(
+      new ScoreValidValidator(scoreRules)))
+    scoreValidator.validate(score.toString)
   }
 
 

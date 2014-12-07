@@ -19,9 +19,15 @@ class FilmClassifySystem(filmValidator: FilmValidator) {
     }
   }
 
-  def modifyFilmCategory(filmName: String, modifiedCategory: String) = {
+  def modifyFilmCategory(name: String, modifiedCategory: String) = {
     if (isFilmCategoryValid(modifiedCategory)) {
-      getFilmByName(filmName).fold()(_.updateCategory(modifiedCategory))
+      getFilmByName(name).fold()(_.updateCategory(modifiedCategory))
+    }
+  }
+
+  def scoreFilm(name: String, score: Int) {
+    if (isFilmScoreValid(score)) {
+      getFilmByName(name).fold()(_.updateScore(score))
     }
   }
 
@@ -38,6 +44,8 @@ class FilmClassifySystem(filmValidator: FilmValidator) {
   private def isFilmNameValid(name: String) = validators("name")(name, films)
 
   private def isFilmCategoryValid(category: String) = validators("category")(category, films)
+
+  private def isFilmScoreValid(score: Int) = validators("score")(score.toString, films)
 
 }
 

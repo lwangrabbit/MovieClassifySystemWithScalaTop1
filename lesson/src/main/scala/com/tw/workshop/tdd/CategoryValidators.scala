@@ -12,4 +12,3 @@ class CategoryRules {
   val categories = List("OTHER", "HUMOR", "SCIENCE", "LOVE")
   val defaultCategory = "OTHER"
 }
-

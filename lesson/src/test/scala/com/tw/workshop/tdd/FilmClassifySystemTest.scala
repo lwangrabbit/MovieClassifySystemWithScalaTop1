@@ -134,11 +134,29 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       }
     }
 
+    describe("Film Score |") {
+      it("should succeed when score is valid") {
+        defaultScores.foreach(score => {
+          val (filmName, filmScore) = ("The Film " + score, score)
+          addFilm(filmName).scoreFilm(filmName, filmScore)
+          getFilmScore(getFilmByName(filmName)) should be (filmScore)
+        })
+      }
+
+      it("should succeed when score repeatedly") {
+        val (filmName, filmScore1, filmScore2) = ("The film to score", 1, 2)
+        addFilm(filmName).scoreFilm(filmName, filmScore1).scoreFilm(filmName, filmScore2)
+        getFilmScore(getFilmByName(filmName)) should be (filmScore2)
+      }
+    }
+
   }
 
   private def getFilmName(film: Option[Film]) = film.fold("")(_.name)
 
   private def getFilmCategory(film: Option[Film]) = film.fold("")(_.category)
+
+  private def getFilmScore(film: Option[Film]) = film.fold(0)(_.score)
 
   private def isFilmExist(film: Option[Film]) = film.fold(false)(_ => true)
 
