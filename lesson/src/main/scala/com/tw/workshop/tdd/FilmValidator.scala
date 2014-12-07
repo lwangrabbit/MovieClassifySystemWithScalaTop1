@@ -6,7 +6,7 @@ package com.tw.workshop.tdd
 class FilmValidator() {
   val categoryRules = new CategoryRules()
   val scoreRules = new ScoreRules
-  val validators: Map[String, (String, List[Film]) => Boolean] =
+  val validators: Map[String, (String, List[Film]) => Boolean] = //ToDo: generic not thoroughly
     Map("name" -> nameValidator,
         "category" -> categoryValidator,
         "score" -> scoreValidator)
@@ -26,7 +26,7 @@ class FilmValidator() {
   def scoreValidator(score: String, films: List[Film]) = {
     val scoreValidator = new ValueValidator(List(
       new ScoreValidValidator(scoreRules)))
-    scoreValidator.validate(score.toString)
+    scoreValidator.validate(score.toInt)
   }
 
 

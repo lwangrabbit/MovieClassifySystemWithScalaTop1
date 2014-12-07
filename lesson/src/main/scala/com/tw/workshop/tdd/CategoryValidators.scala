@@ -4,7 +4,7 @@ package com.tw.workshop.tdd
  * Created by root on 14-12-7.
  */
 
-class CategoryValidValidator(categoryRules: CategoryRules) extends Validator {
+class CategoryValidValidator(categoryRules: CategoryRules) extends Validator[String] {
   override def validate(category: String) = { categoryRules.categories.contains(category) }
 }
 
