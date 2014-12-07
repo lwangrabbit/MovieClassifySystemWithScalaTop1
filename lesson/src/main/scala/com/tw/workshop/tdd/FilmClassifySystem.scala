@@ -14,20 +14,21 @@ class FilmClassifySystem {
 
   def modifyFilmName(originalName: String, modifiedName: String) {
     if (isFilmNameValid(modifiedName)) {
-      getFilmByName(originalName).fold()(_.filmName = modifiedName)
-    }
-  }
-  def modifyFilmCategory(filmName: String, modifiedCategory: String) = {
-    if (isFilmCategoryValid(modifiedCategory)) {
-      getFilmByName(filmName).fold()(_.category = modifiedCategory)
+      getFilmByName(originalName).fold()(_.updateName(modifiedName))
     }
   }
 
-  def getFilmByName(name: String) = films.find(name == _.filmName)
+  def modifyFilmCategory(filmName: String, modifiedCategory: String) = {
+    if (isFilmCategoryValid(modifiedCategory)) {
+      getFilmByName(filmName).fold()(_.updateCategory(modifiedCategory))
+    }
+  }
+
+  def getFilmByName(name: String) = films.find(name == _.name)
 
   def listFilm = films
 
-  def listFilmByCategory(category: String) = films.filter(category == _.category)
+  def listFilmByCategory(category: String) = listFilm.filter(category == _.category)
 
   private def isFilmValid(name: String, category: String) = {
     isFilmNameValid(name) && isFilmCategoryValid(category)

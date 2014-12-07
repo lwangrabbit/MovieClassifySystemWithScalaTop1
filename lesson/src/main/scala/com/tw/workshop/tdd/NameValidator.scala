@@ -16,5 +16,5 @@ class NameEmptyValidator() extends Validator {
 }
 
 class NameDuplicateValidator(films: List[Film]) extends Validator {
-  override def validate(name: String) = !films.exists(name == _.filmName)
+  override def validate(name: String) = !films.exists(name == _.name)
 }
