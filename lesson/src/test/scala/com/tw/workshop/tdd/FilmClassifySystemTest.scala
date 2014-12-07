@@ -148,6 +148,12 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         addFilm(filmName).scoreFilm(filmName, filmScore1).scoreFilm(filmName, filmScore2)
         getFilmScore(getFilmByName(filmName)) should be (filmScore2)
       }
+
+      it("should no score when not score film") {
+        val filmName = "The film without score"
+        addFilm(filmName)
+        getFilmScore(getFilmByName(filmName)) should be (0)
+      }
     }
 
   }
