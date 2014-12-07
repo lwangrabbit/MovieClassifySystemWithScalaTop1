@@ -12,7 +12,7 @@ class FilmClassifySystem {
     }
   }
 
-  def modifyFilmName(originalName: String, modifiedName: String) {
+  def modifyFilmName(originalName: String, modifiedName: String) { //ToDo: return Boolean?
     if (isFilmNameValid(modifiedName)) {
       getFilmByName(originalName).fold()(_.updateName(modifiedName))
     }
@@ -24,18 +24,18 @@ class FilmClassifySystem {
     }
   }
 
-  def getFilmByName(name: String) = films.find(name == _.name)
+  def getFilmByName(name: String) = { films.find(name == _.name) }
 
   def listFilm = films
 
-  def listFilmByCategory(category: String) = listFilm.filter(category == _.category)
+  def listFilmByCategory(category: String) = { listFilm.filter(category == _.category) }
 
   private def isFilmValid(name: String, category: String) = {
     isFilmNameValid(name) && isFilmCategoryValid(category)
   }
 
   private def isFilmNameValid(name: String) = {
-    val nameValidator = new NameValidator(List(
+    val nameValidator = new ValueValidator(List(
           new NameInvalidCharValidator(),
           new NameEmptyValidator(),
           new NameDuplicateValidator(films)))
@@ -43,7 +43,7 @@ class FilmClassifySystem {
   }
 
   private def isFilmCategoryValid(category: String) = {
-    val categoryValidator = new CategoryValidator(List(
+    val categoryValidator = new ValueValidator(List(
           new CategoryValidValidator()))
     categoryValidator.validate(category)
   }

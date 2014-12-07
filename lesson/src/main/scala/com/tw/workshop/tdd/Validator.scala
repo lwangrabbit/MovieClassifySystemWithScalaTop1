@@ -7,5 +7,7 @@ trait Validator {
   def validate(value: String): Boolean
 }
 
-
+class ValueValidator(val validators: List[Validator]) extends Validator{
+  def validate(value: String) = { validators.forall(v => v.validate(value)) }
+}
 
