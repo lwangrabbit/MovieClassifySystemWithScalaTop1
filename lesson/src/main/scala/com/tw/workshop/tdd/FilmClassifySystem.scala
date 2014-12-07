@@ -3,10 +3,10 @@ package com.tw.workshop.tdd
 /**
  * Created by root on 14-12-6.
  */
-class FilmClassifySystem {
+class FilmClassifySystem(categoryRules: CategoryRules) {
   private var films: List[Film] = List()
 
-  def addFilm(name: String, category: String = "OTHER") {
+  def addFilm(name: String, category: String = categoryRules.defaultCategory) {
     if (isFilmValid(name, category)) {
       films = new Film(name, category) :: films
     }
@@ -44,7 +44,7 @@ class FilmClassifySystem {
 
   private def isFilmCategoryValid(category: String) = {
     val categoryValidator = new ValueValidator(List(
-          new CategoryValidValidator()))
+          new CategoryValidValidator(categoryRules)))
     categoryValidator.validate(category)
   }
 }

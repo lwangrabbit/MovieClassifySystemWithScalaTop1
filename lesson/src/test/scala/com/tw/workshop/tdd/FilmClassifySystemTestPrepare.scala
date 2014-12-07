@@ -1,14 +1,17 @@
 package com.tw.workshop.tdd
 
-import org.scalatest.{BeforeAndAfterEach, Matchers, FunSpec}
+import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, Matchers, FunSpec}
 
 /**
  * Created by root on 14-12-6.
  */
-trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAndAfterEach {
+trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAndAfterEach with BeforeAndAfterAll{
   var filmSystem: FilmClassifySystem = null
+  var categoryRules: CategoryRules = new CategoryRules()
+//  var defaultCategories: List[String] = List()
+//  var defaultCategory = ""
 
-  def addFilm(name: String, category: String = "OTHER") = {
+  def addFilm(name: String, category: String = categoryRules.defaultCategory) = {
     filmSystem.addFilm(name, category)
     this
   }
@@ -31,7 +34,7 @@ trait FilmClassifySystemTestPrepare extends FunSpec with Matchers with BeforeAnd
 
   override protected def beforeEach(): Unit = {
     super.beforeEach()
-    filmSystem = new FilmClassifySystem()
+    filmSystem = new FilmClassifySystem(categoryRules)
   }
 
 }

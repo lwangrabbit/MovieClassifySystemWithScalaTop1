@@ -59,10 +59,8 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
     describe("Add Film with Category |") {
       it("should succeed when category is valid") {
-        val filmNames = List("The film 1", "The film 2", "The film 3", "The film 4")
-        val categories = List("OTHER", "HUMOR", "SCIENCE", "LOVE")
-        filmNames.zip(categories).foreach( para => {
-          val (filmName, filmCategory) = (para._1, para._2)
+        categoryRules.categories.foreach(category => {
+          val (filmName, filmCategory) = ("The Film " + category, category)
           val acquiredFilm = addFilm(filmName, filmCategory).getFilmByName(filmName)
           getFilmCategory(acquiredFilm) should be (filmCategory)
         })
@@ -71,7 +69,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       it("should succeed when category is not given") {
         val filmName = "The film without category"
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
-        getFilmCategory(acquiredFilm) should be ("OTHER")
+        getFilmCategory(acquiredFilm) should be (categoryRules.defaultCategory)
       }
 
       it("should fail when category is invalid") {
@@ -83,7 +81,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
     describe("Modify Film Category |") {
       it("should succeed when category is valid") {
-        val (filmName, filmCategory) = ("The film with valid category", "HUMOR")
+        val (filmName, filmCategory) = ("The film with valid category", "HUMOR") //ToDo: "HUMOR" should be dynamic
         val acquiredFilm = addFilm(filmName)
                           .modifyFilmCategory(filmName, filmCategory)
                           .getFilmByName(filmName)
@@ -95,7 +93,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         val acquiredFilm = addFilm(filmName)
                           .modifyFilmCategory(filmName, filmCategory)
                           .getFilmByName(filmName)
-        getFilmCategory(acquiredFilm) should be ("OTHER")
+        getFilmCategory(acquiredFilm) should be (categoryRules.defaultCategory)
       }
     }
 
@@ -123,18 +121,15 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         isFilmsContainName(acquiredFilms, "The film love") should be (true)
       }
 
-      it("should succeed when category is valid and without film") {
-        val categories = List("OTHER", "HUMOR", "HUMOR", "LOVE")
-        categories.foreach( listFilmByCategory(_).length should be (0) )
+      it("should empty when category is valid and without film") {
+        categoryRules.categories.foreach( listFilmByCategory(_).length should be (0) )
       }
 
-      it("should succeed when category is invalid") {
-        val filmNames = List("The film other", "The film humor 1", "The film humor 2", "The film love")
-        val categories = List("OTHER", "HUMOR", "HUMOR", "LOVE")
-        filmNames.zip(categories).foreach( para => {
-          val (filmName, filmCategory) = (para._1, para._2)
-          addFilm(filmName, filmCategory)})
-
+      it("should empty when category is invalid") {
+        categoryRules.categories.foreach(category => {
+          val (filmName, filmCategory) = ("The Film " + category, category)
+          addFilm(filmName, filmCategory)
+        })
         listFilmByCategory("HUMORxx").length should be (0)
       }
     }
