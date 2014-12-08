@@ -15,10 +15,10 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       it("should succeed when film name is valid") {
         val filmName = "The film with valid name"
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
-        getFilmName(acquiredFilm) should be (filmName)
+        getNameOfFilm(acquiredFilm) should be (filmName)
       }
 
-      it("should fail when film name contains invalid char (not [a-zA-Z0-9 ])") {
+      it("should fail when film name contains invalid char ([^a-zA-Z0-9 ])") {
         val filmName = "The film with invalid char(#)"
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
         isFilmExist(acquiredFilm) should be(false)
@@ -32,7 +32,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
       it("should fail when film already existed") {
         val filmName = "The film already existed"
-        val acquiredFilms = addFilm(filmName).addFilm(filmName).listFilm
+        val acquiredFilms = addFilm(filmName).addFilm(filmName).listFilms
         acquiredFilms.length should be(1)
         isFilmsContainName(acquiredFilms, filmName) should be (true)
       }
@@ -41,20 +41,19 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
     describe("Modify Film Name |") {
       it("should succeed when film name is valid and unique") {
         val (originalFilmName, modifiedFilmName) = ("The original film name", "The modified film name")
-        val acquiredFilm = addFilm(originalFilmName)
-                          .modifyFilmName(originalFilmName, modifiedFilmName)
-                          .getFilmByName(modifiedFilmName)
-        getFilmName(acquiredFilm) should be (modifiedFilmName)
+        addFilm(originalFilmName).modifyFilmName(originalFilmName, modifiedFilmName)
+        isFilmExist(getFilmByName(originalFilmName)) should be(false)
+        isFilmExist(getFilmByName(modifiedFilmName)) should be(true)
       }
 
       it("should fail when film name is valid but existed") {
-        val (existedFilmName, originalFilmName) = ("The existed film name", "The original film name")
-        val acquiredFilms = addFilm(existedFilmName).addFilm(originalFilmName)
-                           .modifyFilmName(originalFilmName, existedFilmName)
-                           .listFilm
+        val (existedFilmName, toRenameFilmName) = ("The existed film name", "The to rename film name")
+        val acquiredFilms = addFilm(existedFilmName).addFilm(toRenameFilmName)
+                           .modifyFilmName(toRenameFilmName, existedFilmName)
+                           .listFilms
         acquiredFilms.length should be(2)
-        isFilmsContainName(acquiredFilms, existedFilmName) should be (true)
-        isFilmsContainName(acquiredFilms, originalFilmName) should be (true)
+        isFilmExist(getFilmByName(existedFilmName)) should be(true)
+        isFilmExist(getFilmByName(toRenameFilmName)) should be(true)
       }
     }
 
@@ -63,14 +62,14 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         defaultCategories.foreach(category => {
           val (filmName, filmCategory) = ("The Film " + category, category)
           val acquiredFilm = addFilm(filmName, filmCategory).getFilmByName(filmName)
-          getFilmCategory(acquiredFilm) should be (filmCategory)
+          getCategoryOfFilm(acquiredFilm) should be (filmCategory)
         })
       }
 
-      it("should succeed when category is not given") {
+      it("should be default category when category is not given") {
         val filmName = "The film without category"
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
-        getFilmCategory(acquiredFilm) should be (defaultCategory)
+        getCategoryOfFilm(acquiredFilm) should be (defaultCategory)
       }
 
       it("should fail when category is invalid") {
@@ -86,7 +85,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         val acquiredFilm = addFilm(filmName)
                           .modifyFilmCategory(filmName, filmCategory)
                           .getFilmByName(filmName)
-        getFilmCategory(acquiredFilm) should be (filmCategory)
+        getCategoryOfFilm(acquiredFilm) should be (filmCategory)
       }
 
       it("should fail when category is invalid") {
@@ -94,7 +93,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         val acquiredFilm = addFilm(filmName)
                           .modifyFilmCategory(filmName, filmCategory)
                           .getFilmByName(filmName)
-        getFilmCategory(acquiredFilm) should be (defaultCategory)
+        getCategoryOfFilm(acquiredFilm) should be (defaultCategory)
       }
     }
 
@@ -106,19 +105,19 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
           val (filmName, filmCategory) = (para._1, para._2)
           addFilm(filmName, filmCategory)})
 
-        listFilm.length should be (filmNames.length)
+        listFilms.length should be (categories.length)
 
         var acquiredFilms = listFilmByCategory("OTHER")
-        acquiredFilms.length should be (1)
+        acquiredFilms.length should be (categories.count("OTHER"==_))
         isFilmsContainName(acquiredFilms, "The film other") should be (true)
 
         acquiredFilms = listFilmByCategory("HUMOR")
-        acquiredFilms.length should be (2)
+        acquiredFilms.length should be (categories.count("HUMOR"==_))
         isFilmsContainName(acquiredFilms, "The film humor 1") should be (true)
         isFilmsContainName(acquiredFilms, "The film humor 2") should be (true)
 
         acquiredFilms = listFilmByCategory("LOVE")
-        acquiredFilms.length should be (1)
+        acquiredFilms.length should be (categories.count("LOVE"==_))
         isFilmsContainName(acquiredFilms, "The film love") should be (true)
       }
 
@@ -140,20 +139,20 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         defaultScores.foreach(score => {
           val (filmName, filmScore) = ("The Film " + score, score)
           addFilm(filmName).scoreFilm(filmName, filmScore)
-          getFilmScore(getFilmByName(filmName)) should be (filmScore)
+          getScoreOfFilm(getFilmByName(filmName)) should be (filmScore)
         })
       }
 
-      it("should succeed when score repeatedly") {
+      it("should succeed when score film many times") {
         val (filmName, filmScore1, filmScore2) = ("The film to score", 1, 2)
         addFilm(filmName).scoreFilm(filmName, filmScore1).scoreFilm(filmName, filmScore2)
-        getFilmScore(getFilmByName(filmName)) should be (filmScore2)
+        getScoreOfFilm(getFilmByName(filmName)) should be (filmScore2)
       }
 
       it("should no score when not score film") {
         val filmName = "The film without score"
         addFilm(filmName)
-        getFilmScore(getFilmByName(filmName)) should be (0)
+        getScoreOfFilm(getFilmByName(filmName)) should be (defaultUnScore)
       }
     }
 
@@ -176,11 +175,11 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
     }
   }
 
-  private def getFilmName(film: Option[Film]) = film.fold("")(_.name)
+  private def getNameOfFilm(film: Option[Film]) = film.fold("")(_.name)
 
-  private def getFilmCategory(film: Option[Film]) = film.fold("")(_.category)
+  private def getCategoryOfFilm(film: Option[Film]) = film.fold("")(_.category)
 
-  private def getFilmScore(film: Option[Film]) = film.fold(0)(_.score)
+  private def getScoreOfFilm(film: Option[Film]) = film.fold(0)(_.score)
 
   private def isFilmExist(film: Option[Film]) = film.fold(false)(_ => true)
 

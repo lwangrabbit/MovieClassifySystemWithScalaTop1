@@ -8,28 +8,28 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
   private var films: List[Film] = List()
   private val validators = filmValidator.validators
 
-  def addFilm(name: String, category: String = filmValidator.categoryRules.defaultCategory) = {
-    if (isFilmValid(name, category)) {
-      films = new Film(name, category) :: films
-    }
+  def addFilm(name: String, category: String = filmValidator.categoryRules.defaultCategory): Boolean = {
+    if (!isFilmValid(name, category)) return false
+    films = new Film(name, category) :: films
+    true
   }
 
-  def modifyFilmName(originalName: String, modifiedName: String) = { //ToDo: return Boolean?
-    if (isFilmNameValid(modifiedName)) {
-      getFilmByName(originalName).fold()(_.updateName(modifiedName))
-    }
+  def modifyFilmName(originalName: String, modifiedName: String): Boolean = {
+    if (!isFilmNameValid(modifiedName)) return false
+    getFilmByName(originalName).fold()(_.updateName(modifiedName))
+    true
   }
 
-  def modifyFilmCategory(name: String, modifiedCategory: String) = {
-    if (isFilmCategoryValid(modifiedCategory)) {
-      getFilmByName(name).fold()(_.updateCategory(modifiedCategory))
-    }
+  def modifyFilmCategory(name: String, modifiedCategory: String): Boolean = {
+    if (!isFilmCategoryValid(modifiedCategory)) return false
+    getFilmByName(name).fold()(_.updateCategory(modifiedCategory))
+    true
   }
 
-  def scoreFilm(name: String, score: Int) = {
-    if (isFilmScoreValid(score)) {
-      getFilmByName(name).fold()(_.updateScore(score))
-    }
+  def scoreFilm(name: String, score: Int): Boolean = {
+    if (isFilmScoreValid(score)) return false
+    getFilmByName(name).fold()(_.updateScore(score))
+    true
   }
 
   def persistentFilms(fileName: String) = {
@@ -46,9 +46,9 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
 
   def getFilmByName(name: String) = { films.find(name == _.name) }
 
-  def listFilm = films
+  def listFilms = films
 
-  def listFilmByCategory(category: String) = { listFilm.filter(category == _.category) }
+  def listFilmByCategory(category: String) = { listFilms.filter(category == _.category) }
 
   private def isFilmValid(name: String, category: String) = {
     validators("name")(name, films) && validators("category")(category, films)

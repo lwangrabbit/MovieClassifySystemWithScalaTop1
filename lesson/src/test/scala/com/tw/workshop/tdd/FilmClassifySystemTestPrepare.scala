@@ -1,15 +1,12 @@
 package com.tw.workshop.tdd
 
-import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, Matchers, FunSpec}
-import scala.io.Source
+import org.scalatest.{BeforeAndAfterEach, Matchers, FunSpec}
 import java.io.PrintWriter
 
 /**
  * Created by root on 14-12-6.
  */
 trait FilmClassifySystemTestPrepare extends FilmClassifySystemTestInit {
-
-
   def addFilm(name: String, category: String = defaultCategory) = {
     filmSystem.addFilm(name, category)
     this
@@ -42,7 +39,7 @@ trait FilmClassifySystemTestPrepare extends FilmClassifySystemTestInit {
 
   def getFilmByName(name: String) = { filmSystem.getFilmByName(name) }
 
-  def listFilm = { filmSystem.listFilm }
+  def listFilms = { filmSystem.listFilms }
 
   def listFilmByCategory(category: String) = { filmSystem.listFilmByCategory(category) }
 
@@ -50,7 +47,7 @@ trait FilmClassifySystemTestPrepare extends FilmClassifySystemTestInit {
 
 }
 
-trait FilmClassifySystemTestInit extends FunSpec with Matchers with BeforeAndAfterEach with BeforeAndAfterAll {
+trait FilmClassifySystemTestInit extends FunSpec with Matchers with BeforeAndAfterEach {
   var filmSystem: FilmClassifySystem = null
   val filmValidator = new FilmValidator()
   val filmRepository = new FilmRepositoryFile()
@@ -58,19 +55,21 @@ trait FilmClassifySystemTestInit extends FunSpec with Matchers with BeforeAndAft
   val defaultCategory = filmValidator.categoryRules.defaultCategory
   val defaultCategories = filmValidator.categoryRules.categories
   val defaultScores = filmValidator.scoreRules.scores
+  val defaultUnScore = filmValidator.scoreRules.defaultUnScore
 
   val filmsFileSample = "FilmsRepository_Sample.txt"
   val filmsFileSampleIllFormed = "FilmsRepository_Sample_ill-formed.txt"
   val filmsFileForPersistent = "FilmsRepository_forPersistent.txt"
 
-  private def cleanTmpFile(fileName: String) = {
+  private def resetRepositoryFile(fileName: String) = {
     val pw = new PrintWriter(fileName)
     pw.write("\n")
     pw.close()
   }
+
   override protected def beforeEach(): Unit = {
     super.beforeEach()
-    cleanTmpFile(filmsFileForPersistent)
+    resetRepositoryFile(filmsFileForPersistent)
     filmSystem = new FilmClassifySystem(filmValidator, filmRepository)
   }
 }

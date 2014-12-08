@@ -11,4 +11,5 @@ class ScoreValidValidator(scoreRules: ScoreRules) extends Validator[Int] {
 
 class ScoreRules {
   val scores = List(1, 2, 3, 4, 5)
+  val defaultUnScore = 0
 }
