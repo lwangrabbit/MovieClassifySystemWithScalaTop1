@@ -159,8 +159,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
     describe("Film Repository|") {
       it("should succeed when persistent films") {
-        getFilmMetaRecords().foreach(record => {
-          addFilm(record.name, record.category).scoreFilm(record.name, record.score)})
+        getFilmMetaRecords().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
         persistentFilms()
         isFilmsRepositoryCorrect() should be (true)
       }
@@ -170,7 +169,10 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         isFilmsRepositoryCorrect() should be (true)
       }
 
-      //ToDo: ignore unformatted file
+      it("should succeed when load films with ill-formed") {
+        loadFilms(filmsFileSampleIllFormed).persistentFilms()
+        isFilmsRepositoryCorrect() should be (true)
+      }
     }
   }
 
@@ -186,11 +188,11 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
     if (films.exists(name == _.name)) true else false
   }
 
-  private def isFilmsRepositoryCorrect(persistentFileName: String = filmsFileForPersistent,
-                                       sampleFileName: String = filmsFileSample) = {
-    val persistentContents = Source.fromFile(persistentFileName).toList //ToDo: Trim?
+  private def isFilmsRepositoryCorrect(sampleFileName: String = filmsFileSample,
+                                       targetFileName: String = filmsFileForPersistent) = {
+    val targetContents = Source.fromFile(targetFileName).toList //ToDo: Trim?
     val sampleContents = Source.fromFile(sampleFileName).toList
-    persistentContents == (persistentContents intersect sampleContents)
+    targetContents == (targetContents intersect sampleContents)
   }
 
 }

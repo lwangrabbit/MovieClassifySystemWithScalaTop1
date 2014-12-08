@@ -46,11 +46,7 @@ trait FilmClassifySystemTestPrepare extends FilmClassifySystemTestInit {
 
   def listFilmByCategory(category: String) = { filmSystem.listFilmByCategory(category) }
 
-  def getFilmMetaRecords(fileName: String = filmsFileSample) = {
-    List(new FilmStructureInRepository("The film 3", "HUMOR", 3), //ToDo: read from fileName?
-      new FilmStructureInRepository("The film 2", "HUMOR", 0),
-      new FilmStructureInRepository("The film 1", "OTHER", 0))
-  }
+  def getFilmMetaRecords(fileName: String = filmsFileSample) = { filmRepository.load(fileName) }
 
 }
 
@@ -64,6 +60,7 @@ trait FilmClassifySystemTestInit extends FunSpec with Matchers with BeforeAndAft
   val defaultScores = filmValidator.scoreRules.scores
 
   val filmsFileSample = "FilmsRepository_Sample.txt"
+  val filmsFileSampleIllFormed = "FilmsRepository_Sample_ill-formed.txt"
   val filmsFileForPersistent = "FilmsRepository_forPersistent.txt"
 
   private def cleanTmpFile(fileName: String) = {

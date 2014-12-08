@@ -1,6 +1,7 @@
 package com.tw.workshop.tdd
 
 import java.io.PrintWriter
+import scala.io.Source
 
 /**
  * Created by root on 14-12-7.
@@ -16,7 +17,6 @@ trait FilmRepository {
 }
 
 class FilmRepositoryFile() extends FilmRepository{
-
   override def persistent(films: List[Film], fileName: String) = {
     val pw = new PrintWriter(fileName)
     films.foreach(film => pw.write(formatFilm(film) + "\n"))
@@ -24,9 +24,17 @@ class FilmRepositoryFile() extends FilmRepository{
   }
 
   override def load(fileName: String) = {
-    List(new FilmStructureInRepository("The film 3", "HUMOR", 3), //ToDo: read from fileName?
-      new FilmStructureInRepository("The film 2", "HUMOR", 0),
-      new FilmStructureInRepository("The film 1", "OTHER", 0))
+    Source.fromFile(fileName).getLines().map(genFilmMetaStructure).filter("" != _.name).toList
+  }
+
+  private def genFilmMetaStructure(record: String) = {
+    val filmFormatAll = """([\w ]+)\|(\w+)\|(\d)+""".r
+    val filmFormatNoScore = """([\w ]+)\|(\w+)""".r
+    record match {
+      case filmFormatAll(name, category, score) => new FilmStructureInRepository(name, category, score.toInt)
+      case filmFormatNoScore(name, category) => new FilmStructureInRepository(name, category, 0)
+      case _ => new FilmStructureInRepository("", "", 0)
+    }
   }
 
   private def formatFilm(film: Film) = {
