@@ -22,13 +22,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">1</div>
+<div class="counter">17</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">1</div>
+<div class="counter">0</div>
 <p>failures</p>
 </div>
 </td>
@@ -40,7 +40,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.076s</div>
+<div class="counter">0.088s</div>
 <p>duration</p>
 </div>
 </td>
@@ -49,8 +49,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox failures" id="successRate">
-<div class="percent">0%</div>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
 <p>successful</p>
 </div>
 </td>
@@ -60,98 +60,10 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Failed tests</a>
-</li>
-<li>
-<a href="#tab1">Tests</a>
+<a href="#tab0">Tests</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
-<h2>Failed tests</h2>
-<div class="test">
-<a name="Film Classify System Add Film should succeed when film is valid"></a>
-<h3 class="failures">Film Classify System Add Film should succeed when film is valid</h3>
-<span class="code">
-<pre>org.scalatest.exceptions.TestFailedException: &quot;[qqq]&quot; was not equal to &quot;[CORRECT]&quot;
-	at org.scalatest.MatchersHelper$.newTestFailedException(MatchersHelper.scala:160)
-	at org.scalatest.Matchers$ShouldMethodHelper$.shouldMatcher(Matchers.scala:5980)
-	at org.scalatest.Matchers$AnyShouldWrapper.should(Matchers.scala:6014)
-	at com.tw.workshop.tdd.FilmClassifySystemTest$$anonfun$1$$anonfun$apply$mcV$sp$1$$anonfun$apply$mcV$sp$2.apply$mcV$sp(FilmClassifySystemTest.scala:16)
-	at com.tw.workshop.tdd.FilmClassifySystemTest$$anonfun$1$$anonfun$apply$mcV$sp$1$$anonfun$apply$mcV$sp$2.apply(FilmClassifySystemTest.scala:16)
-	at com.tw.workshop.tdd.FilmClassifySystemTest$$anonfun$1$$anonfun$apply$mcV$sp$1$$anonfun$apply$mcV$sp$2.apply(FilmClassifySystemTest.scala:16)
-	at org.scalatest.Transformer$$anonfun$apply$1.apply(Transformer.scala:22)
-	at org.scalatest.Transformer$$anonfun$apply$1.apply(Transformer.scala:22)
-	at org.scalatest.OutcomeOf$class.outcomeOf(OutcomeOf.scala:85)
-	at org.scalatest.OutcomeOf$.outcomeOf(OutcomeOf.scala:104)
-	at org.scalatest.Transformer.apply(Transformer.scala:22)
-	at org.scalatest.Transformer.apply(Transformer.scala:20)
-	at org.scalatest.FunSpecLike$$anon$1.apply(FunSpecLike.scala:413)
-	at org.scalatest.Suite$class.withFixture(Suite.scala:1121)
-	at org.scalatest.FunSpec.withFixture(FunSpec.scala:1626)
-	at org.scalatest.FunSpecLike$class.invokeWithFixture$1(FunSpecLike.scala:410)
-	at org.scalatest.FunSpecLike$$anonfun$runTest$1.apply(FunSpecLike.scala:422)
-	at org.scalatest.FunSpecLike$$anonfun$runTest$1.apply(FunSpecLike.scala:422)
-	at org.scalatest.SuperEngine.runTestImpl(Engine.scala:306)
-	at org.scalatest.FunSpecLike$class.runTest(FunSpecLike.scala:422)
-	at org.scalatest.FunSpec.runTest(FunSpec.scala:1626)
-	at org.scalatest.FunSpecLike$$anonfun$runTests$1.apply(FunSpecLike.scala:454)
-	at org.scalatest.FunSpecLike$$anonfun$runTests$1.apply(FunSpecLike.scala:454)
-	at org.scalatest.SuperEngine$$anonfun$traverseSubNodes$1$1.apply(Engine.scala:413)
-	at org.scalatest.SuperEngine$$anonfun$traverseSubNodes$1$1.apply(Engine.scala:401)
-	at scala.collection.immutable.List.foreach(List.scala:318)
-	at org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:401)
-	at org.scalatest.SuperEngine.org$scalatest$SuperEngine$$runTestsInBranch(Engine.scala:390)
-	at org.scalatest.SuperEngine$$anonfun$traverseSubNodes$1$1.apply(Engine.scala:427)
-	at org.scalatest.SuperEngine$$anonfun$traverseSubNodes$1$1.apply(Engine.scala:401)
-	at scala.collection.immutable.List.foreach(List.scala:318)
-	at org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:401)
-	at org.scalatest.SuperEngine.org$scalatest$SuperEngine$$runTestsInBranch(Engine.scala:390)
-	at org.scalatest.SuperEngine$$anonfun$traverseSubNodes$1$1.apply(Engine.scala:427)
-	at org.scalatest.SuperEngine$$anonfun$traverseSubNodes$1$1.apply(Engine.scala:401)
-	at scala.collection.immutable.List.foreach(List.scala:318)
-	at org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:401)
-	at org.scalatest.SuperEngine.org$scalatest$SuperEngine$$runTestsInBranch(Engine.scala:396)
-	at org.scalatest.SuperEngine.runTestsImpl(Engine.scala:483)
-	at org.scalatest.FunSpecLike$class.runTests(FunSpecLike.scala:454)
-	at org.scalatest.FunSpec.runTests(FunSpec.scala:1626)
-	at org.scalatest.Suite$class.run(Suite.scala:1423)
-	at org.scalatest.FunSpec.org$scalatest$FunSpecLike$$super$run(FunSpec.scala:1626)
-	at org.scalatest.FunSpecLike$$anonfun$run$1.apply(FunSpecLike.scala:458)
-	at org.scalatest.FunSpecLike$$anonfun$run$1.apply(FunSpecLike.scala:458)
-	at org.scalatest.SuperEngine.runImpl(Engine.scala:545)
-	at org.scalatest.FunSpecLike$class.run(FunSpecLike.scala:458)
-	at org.scalatest.FunSpec.run(FunSpec.scala:1626)
-	at org.scalatest.junit.JUnitRunner.run(JUnitRunner.scala:99)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:86)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:49)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:50)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:105)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:355)
-	at org.gradle.internal.concurrent.DefaultExecutorFactory$StoppableExecutorImpl$1.run(DefaultExecutorFactory.java:64)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
-	at java.lang.Thread.run(Thread.java:745)
-</pre>
-</span>
-</div>
-</div>
-<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -162,16 +74,96 @@
 </tr>
 </thead>
 <tr>
-<td class="failures">Film Classify System Add Film should succeed when film is valid</td>
-<td>0.076s</td>
-<td class="failures">failed</td>
+<td class="success">Film Classify System | Add Film with Category | should fail when category is invalid</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Add Film with Category | should succeed when category is not given</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Add Film with Category | should succeed when category is valid</td>
+<td>0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Add Film | should fail when film already existed</td>
+<td>0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Add Film | should fail when film name contains invalid char (not [a-zA-Z0-9 ])</td>
+<td>0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Add Film | should fail when film name is empty</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Add Film | should succeed when film name is valid</td>
+<td>0.055s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Film Score | should no score when not score film</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Film Score | should succeed when score is valid</td>
+<td>0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Film Score | should succeed when score repeatedly</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | List Film By Category | should empty when category is invalid</td>
+<td>0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | List Film By Category | should empty when category is valid and without film</td>
+<td>0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | List Film By Category | should succeed when category is valid</td>
+<td>0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Modify Film Category | should fail when category is invalid</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Modify Film Category | should succeed when category is valid</td>
+<td>0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Modify Film Name | should fail when film name is valid but existed</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Film Classify System | Modify Film Name | should succeed when film name is valid and unique</td>
+<td>0.002s</td>
+<td class="success">passed</td>
 </tr>
 </table>
 </div>
 </div>
 <div id="footer">
 <p>Generated by 
-<a href="http://www.gradle.org">Gradle 1.11</a> at 2014-12-6 18:57:39</p>
+<a href="http://www.gradle.org">Gradle 1.11</a> at 2014-12-7 20:19:39</p>
 </div>
 </div>
 </body>

@@ -6,8 +6,8 @@ package com.tw.workshop.tdd
 class Film(var name: String, var category: String) {
   var score: Int = 0
 
-  def updateName(modName: String) =  { name = modName }
-  def updateCategory(modCategory: String) = { category = modCategory }
-  def updateScore(modScore: Int) = { score = modScore }
+  def updateName(modName: String) =  { name = modName; this }
+  def updateCategory(modCategory: String) = { category = modCategory; this }
+  def updateScore(modScore: Int) = { score = modScore; this }
 
 }

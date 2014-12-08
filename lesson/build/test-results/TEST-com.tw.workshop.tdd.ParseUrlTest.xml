@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.tw.workshop.tdd.ParseUrlTest" tests="1" failures="0" errors="0" timestamp="2014-12-06T15:57:39" hostname="gsmdev-VirtualBox" time="0.001">
-  <properties/>
-  <testcase name="Test url parse (normal) url with path" classname="com.tw.workshop.tdd.ParseUrlTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

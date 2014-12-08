@@ -1,19 +1,20 @@
 package com.tw.workshop.tdd
 
+
 /**
  * Created by root on 14-12-6.
  */
-class FilmClassifySystem(filmValidator: FilmValidator) {
+class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepository) {
   private var films: List[Film] = List()
   private val validators = filmValidator.validators
 
-  def addFilm(name: String, category: String = filmValidator.categoryRules.defaultCategory) {
+  def addFilm(name: String, category: String = filmValidator.categoryRules.defaultCategory) = {
     if (isFilmValid(name, category)) {
       films = new Film(name, category) :: films
     }
   }
 
-  def modifyFilmName(originalName: String, modifiedName: String) { //ToDo: return Boolean?
+  def modifyFilmName(originalName: String, modifiedName: String) = { //ToDo: return Boolean?
     if (isFilmNameValid(modifiedName)) {
       getFilmByName(originalName).fold()(_.updateName(modifiedName))
     }
@@ -25,10 +26,22 @@ class FilmClassifySystem(filmValidator: FilmValidator) {
     }
   }
 
-  def scoreFilm(name: String, score: Int) {
+  def scoreFilm(name: String, score: Int) = {
     if (isFilmScoreValid(score)) {
       getFilmByName(name).fold()(_.updateScore(score))
     }
+  }
+
+  def persistentFilms(fileName: String) = {
+    filmRepository.persistent(films, fileName)
+  }
+
+  def loadFilms(fileName: String) = {
+    filmRepository.load(fileName).foreach(f => {
+      if (isFilmValid(f.name, f.category) && isFilmScoreValid(f.score)) {
+        films = new Film(f.name, f.category).updateScore(f.score) :: films
+      }
+    })
   }
 
   def getFilmByName(name: String) = { films.find(name == _.name) }

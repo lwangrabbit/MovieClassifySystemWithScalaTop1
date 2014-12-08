@@ -2,6 +2,7 @@ package com.tw.workshop.tdd
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import io.Source
 
 /**
  * Created by root on 12/6/14.
@@ -156,6 +157,21 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       }
     }
 
+    describe("Film Repository|") {
+      it("should succeed when persistent films") {
+        getFilmMetaRecords().foreach(record => {
+          addFilm(record.name, record.category).scoreFilm(record.name, record.score)})
+        persistentFilms()
+        isFilmsRepositoryCorrect() should be (true)
+      }
+
+      it("should succeed when load films") {
+        loadFilms().persistentFilms()
+        isFilmsRepositoryCorrect() should be (true)
+      }
+
+      //ToDo: ignore unformatted file
+    }
   }
 
   private def getFilmName(film: Option[Film]) = film.fold("")(_.name)
@@ -170,6 +186,12 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
     if (films.exists(name == _.name)) true else false
   }
 
+  private def isFilmsRepositoryCorrect(persistentFileName: String = filmsFileForPersistent,
+                                       sampleFileName: String = filmsFileSample) = {
+    val persistentContents = Source.fromFile(persistentFileName).toList //ToDo: Trim?
+    val sampleContents = Source.fromFile(sampleFileName).toList
+    persistentContents == (persistentContents intersect sampleContents)
+  }
 
 }
 
