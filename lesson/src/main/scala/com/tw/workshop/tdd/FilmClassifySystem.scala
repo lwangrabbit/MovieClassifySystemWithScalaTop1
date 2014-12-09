@@ -38,8 +38,10 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
 
   def loadFilms(fileName: String) = {
     filmRepository.load(fileName).foreach(f => {
-      if (isFilmValid(f.name, f.category) && isFilmScoreValid(f.score)) {
-        films = new Film(f.name, f.category).updateScore(f.score) :: films
+      if (isFilmValid(f.name, f.category)) {
+        val film = new Film(f.name, f.category)
+        films = film :: films
+        if (isFilmScoreValid(f.score)) film.updateScore(f.score)
       }
     })
   }

@@ -27,7 +27,7 @@ class FilmRepositoryFile() extends FilmRepository{
     Source.fromFile(fileName).getLines().map(genFilmMetaStructure).filter("" != _.name).toList
   }
 
-  private def genFilmMetaStructure(record: String) = {
+  def genFilmMetaStructure(record: String) = {
     val filmFormatAll = """([\w ]+)\|(\w+)\|(\d)+""".r
     val filmFormatNoScore = """([\w ]+)\|(\w+)""".r
     record match {

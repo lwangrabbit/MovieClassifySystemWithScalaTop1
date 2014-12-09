@@ -172,6 +172,20 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         loadFilms(filmsFileSampleIllFormed).persistentFilms()
         isFilmsRepositoryCorrect() should be (true)
       }
+
+      it("should succeed when load films and then add films") {
+        loadFilms()
+        getDiffRecordsOfFiles().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
+        persistentFilms()
+        isFilmsRepositoryCorrect(sampleFileName = filmsFileSampleAddition) should be (true)
+      }
+
+      it("should succeed when add films and then load films") {
+        getDiffRecordsOfFiles().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
+        loadFilms()
+        persistentFilms()
+        isFilmsRepositoryCorrect(sampleFileName = filmsFileSampleAddition) should be (true)
+      }
     }
   }
 
@@ -189,9 +203,18 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
   private def isFilmsRepositoryCorrect(sampleFileName: String = filmsFileSample,
                                        targetFileName: String = filmsFileForPersistent) = {
-    val targetContents = Source.fromFile(targetFileName).toList //ToDo: Trim?
-    val sampleContents = Source.fromFile(sampleFileName).toList
-    targetContents == (targetContents intersect sampleContents)
+    val sampleContents = Source.fromFile(sampleFileName).getLines().toSet
+    val targetContents = Source.fromFile(targetFileName).getLines().toSet
+    val intersectSet = targetContents intersect sampleContents
+    (targetContents == intersectSet) && (sampleContents == intersectSet)
+  }
+
+  private def getDiffRecordsOfFiles(sampleFileName: String = filmsFileSample,
+                                    targetFileName: String = filmsFileSampleAddition) = {
+    val sampleContents = Source.fromFile(sampleFileName).getLines().toSet
+    val targetContents = Source.fromFile(targetFileName).getLines().toSet
+    ((sampleContents diff targetContents) ++ (targetContents diff sampleContents))
+      .map(filmRepository.genFilmMetaStructure)
   }
 
 }

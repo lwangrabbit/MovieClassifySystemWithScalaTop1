@@ -59,6 +59,7 @@ trait FilmClassifySystemTestInit extends FunSpec with Matchers with BeforeAndAft
 
   val filmsFileSample = "FilmsRepository_Sample.txt"
   val filmsFileSampleIllFormed = "FilmsRepository_Sample_ill-formed.txt"
+  val filmsFileSampleAddition = "FilmsRepository_Sample_Addition.txt"
   val filmsFileForPersistent = "FilmsRepository_forPersistent.txt"
 
   private def resetRepositoryFile(fileName: String) = {
