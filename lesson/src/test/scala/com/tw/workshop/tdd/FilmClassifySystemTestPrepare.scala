@@ -52,10 +52,10 @@ trait FilmClassifySystemTestInit extends FunSpec with Matchers with BeforeAndAft
   val filmValidator = new FilmValidator()
   val filmRepository = new FilmRepositoryFile()
 
-  val defaultCategory = filmValidator.categoryRules.defaultCategory
-  val defaultCategories = filmValidator.categoryRules.categories
-  val defaultScores = filmValidator.scoreRules.scores
-  val defaultUnScore = filmValidator.scoreRules.defaultUnScore
+  val defaultCategory = CategoryCfg.defaultCategory
+  val defaultCategories = CategoryCfg.categories
+  val defaultUnScore = ScoreCfg.defaultUnScore
+  val defaultScores = ScoreCfg.scores
 
   val filmsFileSample = "FilmsRepository_Sample.txt"
   val filmsFileSampleIllFormed = "FilmsRepository_Sample_ill-formed.txt"

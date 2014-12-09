@@ -4,8 +4,6 @@ package com.tw.workshop.tdd
  * Created by root on 14-12-7.
  */
 class FilmValidator() {
-  val categoryRules = new CategoryRules()
-  val scoreRules = new ScoreRules
   val validators: Map[String, (String, List[Film]) => Boolean] = //ToDo: generic not thoroughly
     Map("name" -> nameValidator,
         "category" -> categoryValidator,
@@ -19,13 +17,13 @@ class FilmValidator() {
 
   def categoryValidator(category: String, films: List[Film]) = {
     val categoryValidator = new ValueValidator(List(
-      new CategoryValidValidator(categoryRules)))
+      new CategoryValidValidator()))
     categoryValidator.validate(category)
   }
 
   def scoreValidator(score: String, films: List[Film]) = {
     val scoreValidator = new ValueValidator(List(
-      new ScoreValidValidator(scoreRules)))
+      new ScoreValidValidator()))
     scoreValidator.validate(score.toInt)
   }
 

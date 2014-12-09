@@ -32,13 +32,14 @@ class FilmRepositoryFile() extends FilmRepository{
     val filmFormatNoScore = """([\w ]+)\|(\w+)""".r
     record match {
       case filmFormatAll(name, category, score) => new FilmStructureInRepository(name, category, score.toInt)
-      case filmFormatNoScore(name, category) => new FilmStructureInRepository(name, category, 0)
-      case _ => new FilmStructureInRepository("", "", 0)
+      case filmFormatNoScore(name, category) => new FilmStructureInRepository(name, category, ScoreCfg.defaultUnScore)
+      case _ => new FilmStructureInRepository("", "", ScoreCfg.defaultUnScore)
     }
   }
 
   private def formatFilm(film: Film) = {
-    List(film.name, film.category, film.score).mkString(separator).replace("|0", "")
+    val unusedSegment = separator + ScoreCfg.defaultUnScore
+    List(film.name, film.category, film.score).mkString(separator).replace(unusedSegment, "")
   }
 }
 

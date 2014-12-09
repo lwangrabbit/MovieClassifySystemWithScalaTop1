@@ -8,7 +8,7 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
   private var films: List[Film] = List()
   private val validators = filmValidator.validators
 
-  def addFilm(name: String, category: String = filmValidator.categoryRules.defaultCategory): Boolean = {
+  def addFilm(name: String, category: String = CategoryCfg.defaultCategory): Boolean = {
     if (!isFilmValid(name, category)) return false
     films = new Film(name, category) :: films
     true
