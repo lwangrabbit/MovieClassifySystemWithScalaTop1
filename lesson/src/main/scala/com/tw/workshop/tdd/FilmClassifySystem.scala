@@ -27,7 +27,7 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
   }
 
   def scoreFilm(name: String, score: Int): Boolean = {
-    if (isFilmScoreValid(score)) return false
+    if (!isFilmScoreValid(score)) return false
     getFilmByName(name).fold()(_.updateScore(score))
     true
   }

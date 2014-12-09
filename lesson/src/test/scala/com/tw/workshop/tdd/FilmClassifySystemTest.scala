@@ -2,7 +2,7 @@ package com.tw.workshop.tdd
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import io.Source
+import scala.io.Source
 
 /**
  * Created by root on 12/6/14.
