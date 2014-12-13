@@ -100,12 +100,12 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
     describe("List Film By Category |") {
       it("should succeed when category is valid") {
-        val filmParas = List(List("The film other", "OTHER"),
-                             List("The film humor 1", "HUMOR"),
-                             List("The film humor 2", "HUMOR"),
-                             List("The film love", "LOVE"))
+        val filmParas = List(("The film other", "OTHER"),
+                             ("The film humor 1", "HUMOR"),
+                             ("The film humor 2", "HUMOR"),
+                             ("The film love", "LOVE"))
         filmParas.foreach( para => {
-          val (filmName, filmCategory) = (para(0), para(1))
+          val (filmName, filmCategory) = (para._1, para._2)
           addFilm(filmName, filmCategory)})
 
         listFilms.length should be (filmParas.length)
@@ -181,6 +181,39 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         val filmName = "The film without score"
         addFilm(filmName)
         getAverageScoreOfFilm(getFilmByName(filmName)) should be (defaultUnScore)
+      }
+
+    }
+
+    describe("List Film |") {
+      it("should asc when list score sort by name") {
+        List(("The film a to list", 1), ("The film b to list", 2),
+             ("The film c to list", 3), ("The film d to list", 4))
+          .foreach( para => {
+            val (filmName, filmScore) = (para._1, para._2)
+            addFilm(filmName).scoreFilm(filmName, filmScore)})
+
+        val acquiredFilms = listFilmsSortByName
+        acquiredFilms.length should be(4)
+        acquiredFilms(0).name should be("The film a to list")
+        acquiredFilms(1).name should be("The film b to list")
+        acquiredFilms(2).name should be("The film c to list")
+        acquiredFilms(3).name should be("The film d to list")
+      }
+
+      it("should desc when list score sort by score") {
+        List(("The film a to list", 1), ("The film b to list", 2),
+             ("The film c to list", 3), ("The film d to list", 4))
+          .foreach( para => {
+            val (filmName, filmScore) = (para._1, para._2)
+            addFilm(filmName).scoreFilm(filmName, filmScore)})
+
+        val acquiredFilms = listFilmsSortByScore
+        acquiredFilms.length should be(4)
+        acquiredFilms(0).averageScore should be(4.0)
+        acquiredFilms(1).averageScore should be(3.0)
+        acquiredFilms(2).averageScore should be(2.0)
+        acquiredFilms(3).averageScore should be(1.0)
       }
 
     }

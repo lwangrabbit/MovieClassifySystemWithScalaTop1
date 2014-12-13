@@ -22,7 +22,7 @@ trait FilmClassifySystemTestPrepare extends FilmClassifySystemTestInit {
     this
   }
 
-  def scoreFilm(name: String, score: Int, comment: String = "") = {
+  def scoreFilm(name: String, score: Int, comment: String = defaultComment) = {
     filmSystem.scoreFilm(name, score, comment)
     this
   }
@@ -39,7 +39,11 @@ trait FilmClassifySystemTestPrepare extends FilmClassifySystemTestInit {
 
   def getFilmByName(name: String) = { filmSystem.getFilmByName(name) }
 
-  def listFilms = { filmSystem.listFilms }
+  def listFilms = { filmSystem.listFilmsSortByName }
+
+  def listFilmsSortByName = { filmSystem.listFilmsSortByName }
+
+  def listFilmsSortByScore = { filmSystem.listFilmsSortByScore }
 
   def listFilmByCategory(category: String) = { filmSystem.listFilmByCategory(category) }
 

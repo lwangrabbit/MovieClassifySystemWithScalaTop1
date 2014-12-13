@@ -47,9 +47,11 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
 
   def getFilmByName(name: String) = { films.find(name == _.name) }
 
-  def listFilms = films
+  def listFilmsSortByName = films.sortWith((film1, film2) => film1.name < film2.name)
 
-  def listFilmByCategory(category: String) = { listFilms.filter(category == _.category) }
+  def listFilmsSortByScore = films.sortWith((film1, film2) => film1.averageScore > film2.averageScore)
+
+  def listFilmByCategory(category: String) = { films.filter(category == _.category) }
 
   private def isFilmValid(name: String, category: String) = {
     validators("name")(name, films) && validators("category")(category, films)
