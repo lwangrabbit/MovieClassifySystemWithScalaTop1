@@ -32,16 +32,15 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
     true
   }
 
-  def persistentFilms(fileName: String) = {
+  def persistentFilms(fileName: String): Unit = {
     filmRepository.persistent(films, fileName)
   }
 
-  def loadFilms(fileName: String) = {
+  def loadFilms(fileName: String): Unit = {
     filmRepository.load(fileName).foreach(f => {
       if (isFilmValid(f.name, f.category)) {
-        val film = new Film(f.name, f.category)
-        films = film :: films
-        if (isFilmScoreValid(f.score)) film.updateScore(f.score)
+        if (isFilmScoreValid(f.score) || ScoreCfg.defaultUnScore == f.score)
+          films = new Film(f.name, f.category).updateScore(f.score) :: films
       }
     })
   }

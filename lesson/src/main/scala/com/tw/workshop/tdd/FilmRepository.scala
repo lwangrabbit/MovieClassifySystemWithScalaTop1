@@ -28,12 +28,16 @@ class FilmRepositoryFile() extends FilmRepository{
   }
 
   def genFilmMetaStructure(record: String) = {
+    val (invalidName, invalidCategory, invalidScore) = ("", "", -1)
     val filmFormatAll = """([\w ]+)\|(\w+)\|(\d)+""".r
     val filmFormatNoScore = """([\w ]+)\|(\w+)""".r
     record match {
-      case filmFormatAll(name, category, score) => new FilmStructureInRepository(name, category, score.toInt)
-      case filmFormatNoScore(name, category) => new FilmStructureInRepository(name, category, ScoreCfg.defaultUnScore)
-      case _ => new FilmStructureInRepository("", "", ScoreCfg.defaultUnScore)
+      case filmFormatAll(name, category, score) if (ScoreCfg.defaultUnScore != score.toInt) =>
+        new FilmStructureInRepository(name, category, score.toInt)
+      case filmFormatNoScore(name, category) =>
+        new FilmStructureInRepository(name, category, ScoreCfg.defaultUnScore)
+      case _ =>
+        new FilmStructureInRepository(invalidName, invalidCategory, invalidScore)
     }
   }
 

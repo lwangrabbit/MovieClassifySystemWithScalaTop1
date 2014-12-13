@@ -99,25 +99,27 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
     describe("List Film By Category |") {
       it("should succeed when category is valid") {
-        val filmNames = List("The film other", "The film humor 1", "The film humor 2", "The film love")
-        val categories = List("OTHER", "HUMOR", "HUMOR", "LOVE")
-        filmNames.zip(categories).foreach( para => {
-          val (filmName, filmCategory) = (para._1, para._2)
+        val filmParas = List(List("The film other", "OTHER"),
+                             List("The film humor 1", "HUMOR"),
+                             List("The film humor 2", "HUMOR"),
+                             List("The film love", "LOVE"))
+        filmParas.foreach( para => {
+          val (filmName, filmCategory) = (para(0), para(1))
           addFilm(filmName, filmCategory)})
 
-        listFilms.length should be (categories.length)
+        listFilms.length should be (filmParas.length)
 
         var acquiredFilms = listFilmByCategory("OTHER")
-        acquiredFilms.length should be (categories.count("OTHER"==_))
+        acquiredFilms.length should be (1)
         isFilmsContainName(acquiredFilms, "The film other") should be (true)
 
         acquiredFilms = listFilmByCategory("HUMOR")
-        acquiredFilms.length should be (categories.count("HUMOR"==_))
+        acquiredFilms.length should be (2)
         isFilmsContainName(acquiredFilms, "The film humor 1") should be (true)
         isFilmsContainName(acquiredFilms, "The film humor 2") should be (true)
 
         acquiredFilms = listFilmByCategory("LOVE")
-        acquiredFilms.length should be (categories.count("LOVE"==_))
+        acquiredFilms.length should be (1)
         isFilmsContainName(acquiredFilms, "The film love") should be (true)
       }
 
