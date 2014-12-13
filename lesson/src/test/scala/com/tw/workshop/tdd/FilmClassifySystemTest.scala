@@ -3,6 +3,7 @@ package com.tw.workshop.tdd
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import scala.io.Source
+import FilmClassifySystemExtensions._
 
 /**
  * Created by root on 12/6/14.
@@ -137,28 +138,54 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
     }
 
     describe("Film Score |") {
-      it("should succeed when score is valid") {
+      it("should succeed when score is valid and no comment") {
         defaultScores.foreach(score => {
-          val (filmName, filmScore) = ("The Film " + score, score)
+          val (filmName, filmScore) = ("The film " + score, score)
           addFilm(filmName).scoreFilm(filmName, filmScore)
-          getScoreOfFilm(getFilmByName(filmName)) should be (filmScore)
+          getAverageScoreOfFilm(getFilmByName(filmName)) should be (filmScore)
+          isFilmContainScoreAndComment(filmName, filmScore) should be (true)
         })
       }
 
+      it("should succeed when score is valid and with comment") {
+        defaultScores.foreach(score => {
+          val (filmName, filmScore, filmComment) = ("The film " + score, score, "The film comment on " + score)
+          addFilm(filmName).scoreFilm(filmName, filmScore, filmComment)
+          getAverageScoreOfFilm(getFilmByName(filmName)) should be (filmScore)
+          isFilmContainScoreAndComment(filmName, filmScore, filmComment) should be (true)
+        })
+      }
+
+      it("should fail when comment contains invalid char ([^a-zA-Z0-9 ])") {
+        val (filmName, filmScore, filmComment) = ("The film to score", 1, "The film comment $")
+        addFilm(filmName).scoreFilm(filmName, filmScore, filmComment)
+        getAverageScoreOfFilm(getFilmByName(filmName)) should be (defaultUnScore)
+        isFilmContainScoreAndComment(filmName, filmScore, filmComment) should be (false)
+      }
+
       it("should succeed when score film many times") {
-        val (filmName, filmScore1, filmScore2) = ("The film to score", 1, 2)
-        addFilm(filmName).scoreFilm(filmName, filmScore1).scoreFilm(filmName, filmScore2)
-        getScoreOfFilm(getFilmByName(filmName)) should be (filmScore2)
+        val (filmName, filmScore1, filmComment1, filmScore2, filmComment2) = ("The film to score", 1, "The film comment 1", 2, "The film comment 2")
+        addFilm(filmName).scoreFilm(filmName, filmScore1, filmComment1).scoreFilm(filmName, filmScore2, filmComment2)
+        getAverageScoreOfFilm(getFilmByName(filmName)) should be(1.5)
+        isFilmContainScoreAndComment(filmName, filmScore1, filmComment1) should be (true)
+        isFilmContainScoreAndComment(filmName, filmScore2, filmComment2) should be (true)
+      }
+
+      it("should have 2 decimal digits if necessary") {
+        val (filmName, filmScore1, filmScore2, filmScore3) = ("The film to score", 1, 3, 3)
+        addFilm(filmName).scoreFilm(filmName, filmScore1).scoreFilm(filmName, filmScore2).scoreFilm(filmName, filmScore3)
+        getAverageScoreOfFilm(getFilmByName(filmName)) should be(2.33)
       }
 
       it("should no score when not score film") {
         val filmName = "The film without score"
         addFilm(filmName)
-        getScoreOfFilm(getFilmByName(filmName)) should be (defaultUnScore)
+        getAverageScoreOfFilm(getFilmByName(filmName)) should be (defaultUnScore)
       }
+
     }
 
-    describe("Film Repository|") {
+/*    describe("Film Repository|") {
       it("should succeed when persistent films") {
         getFilmMetaRecords().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
         persistentFilms()
@@ -188,20 +215,28 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         persistentFilms()
         isFilmsRepositoryCorrect(sampleFileName = filmsFileSampleAddition) should be (true)
       }
-    }
+    }*/
+
   }
 
   private def getNameOfFilm(film: Option[Film]) = film.fold("")(_.name)
 
   private def getCategoryOfFilm(film: Option[Film]) = film.fold("")(_.category)
 
-  private def getScoreOfFilm(film: Option[Film]) = film.fold(0)(_.score)
+  private def getAverageScoreOfFilm(film: Option[Film]) = film.fold(0.0)(_.averageScore)
+
+  private def getScoreHistoryOfFilm(film: Option[Film]) = film.fold(List[FilmScoreRecord]())(_.scoreHistory)
 
   private def isFilmExist(film: Option[Film]) = film.fold(false)(_ => true)
 
   private def isFilmsContainName(films: List[Film], name: String) = {
     if (films.exists(name == _.name)) true else false
   }
+
+  private def isFilmContainScoreAndComment(name: String, score: Int, comment: String = defaultComment) = {
+    getScoreHistoryOfFilm(getFilmByName(name)).exists(rec => (score == rec.score && comment == rec.comment))
+  }
+
 
   private def isFilmsRepositoryCorrect(sampleFileName: String = filmsFileSample,
                                        targetFileName: String = filmsFileForPersistent) = {

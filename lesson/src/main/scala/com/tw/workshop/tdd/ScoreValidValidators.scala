@@ -12,4 +12,5 @@ class ScoreValidValidator() extends Validator[Int] {
 object ScoreCfg {
   val scores = List(1, 2, 3, 4, 5)
   val defaultUnScore = 0
+  val defaultComment = ""
 }

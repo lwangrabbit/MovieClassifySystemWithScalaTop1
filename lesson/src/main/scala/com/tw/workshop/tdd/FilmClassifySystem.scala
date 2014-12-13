@@ -26,9 +26,9 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
     true
   }
 
-  def scoreFilm(name: String, score: Int): Boolean = {
-    if (!isFilmScoreValid(score)) return false
-    getFilmByName(name).fold()(_.updateScore(score))
+  def scoreFilm(name: String, score: Int, comment: String = ScoreCfg.defaultComment): Boolean = {
+    if (!isFilmScoreAndCommentValid(score, comment)) return false
+    getFilmByName(name).fold()(_.addScore(score, comment))
     true
   }
 
@@ -39,8 +39,8 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
   def loadFilms(fileName: String): Unit = {
     filmRepository.load(fileName).foreach(f => {
       if (isFilmValid(f.name, f.category)) {
-        if (isFilmScoreValid(f.score) || ScoreCfg.defaultUnScore == f.score)
-          films = new Film(f.name, f.category).updateScore(f.score) :: films
+        if (isFilmScoreAndCommentValid(f.score, "") || ScoreCfg.defaultUnScore == f.score)
+          films = new Film(f.name, f.category).addScore(f.score, "") :: films
       }
     })
   }
@@ -59,7 +59,9 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
 
   private def isFilmCategoryValid(category: String) = validators("category")(category, films)
 
-  private def isFilmScoreValid(score: Int) = validators("score")(score.toString, films)
+  private def isFilmScoreAndCommentValid(score: Int, comment: String) = {
+    validators("score")(score.toString, films) && validators("comment")(comment, films)
+  }
 
 }
 

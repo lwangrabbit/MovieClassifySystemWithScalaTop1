@@ -43,7 +43,7 @@ class FilmRepositoryFile() extends FilmRepository{
 
   def formatFilm(film: Film) = {
     val unusedSegment = separator + ScoreCfg.defaultUnScore
-    List(film.name, film.category, film.score).mkString(separator).replace(unusedSegment, "")
+    List(film.name, film.category, film.averageScore).mkString(separator).replace(unusedSegment, "")
   }
 }
 

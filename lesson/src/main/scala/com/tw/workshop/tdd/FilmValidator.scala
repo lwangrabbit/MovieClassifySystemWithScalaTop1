@@ -7,7 +7,8 @@ class FilmValidator() {
   val validators: Map[String, (String, List[Film]) => Boolean] = //ToDo: generic not thoroughly
     Map("name" -> nameValidator,
         "category" -> categoryValidator,
-        "score" -> scoreValidator)
+        "score" -> scoreValidator,
+        "comment" -> commentValidator)
 
   def nameValidator(name: String, films: List[Film]) = {
     val nameValidator = new ValueValidator(List(
@@ -27,5 +28,10 @@ class FilmValidator() {
     scoreValidator.validate(score.toInt)
   }
 
+  def commentValidator(comment: String, films: List[Film]) = {
+    val commentValidator = new ValueValidator(List(
+      new CommentValidValidator()))
+    commentValidator.validate(comment)
+  }
 
 }

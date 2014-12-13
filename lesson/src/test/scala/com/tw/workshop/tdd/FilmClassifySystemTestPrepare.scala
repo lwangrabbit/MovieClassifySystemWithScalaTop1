@@ -22,8 +22,8 @@ trait FilmClassifySystemTestPrepare extends FilmClassifySystemTestInit {
     this
   }
 
-  def scoreFilm(name: String, score: Int) = {
-    filmSystem.scoreFilm(name, score)
+  def scoreFilm(name: String, score: Int, comment: String = "") = {
+    filmSystem.scoreFilm(name, score, comment)
     this
   }
 
@@ -56,6 +56,7 @@ trait FilmClassifySystemTestInit extends FunSpec with Matchers with BeforeAndAft
   val defaultCategories = CategoryCfg.categories
   val defaultUnScore = ScoreCfg.defaultUnScore
   val defaultScores = ScoreCfg.scores
+  val defaultComment = ScoreCfg.defaultComment
 
   val filmsFileSample = "FilmsRepository_Sample.txt"
   val filmsFileSampleIllFormed = "FilmsRepository_Sample_ill-formed.txt"
