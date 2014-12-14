@@ -25,7 +25,7 @@ class FilmRepositoryFile() extends FilmRepository{
   }
 
   override def load(fileName: String) = {
-    Source.fromFile(fileName).getLines().map(genFilmMetaStructure).toList
+    Source.fromFile(fileName).getLines().filter("" != _).map(genFilmMetaStructure).toList
   }
 
   def formatFilm(film: Film) = {

@@ -232,25 +232,32 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         loadFilms().persistentFilms()
         isFilmsRepositoryCorrect() should be (true)
       }
-/*
-      ignore("should succeed when load films with ill-formed") {
-        loadFilms(filmsFileSampleIllFormed).persistentFilms()
-        isFilmsRepositoryCorrect() should be (true)
-      }
 
-      ignore("should succeed when load films and then add films") {
+//      ignore("should succeed when load films with ill-formed") {
+//        loadFilms(filmsFileSampleIllFormed).persistentFilms()
+//        isFilmsRepositoryCorrect() should be (true)
+//      }
+
+      it("should succeed when load films and then add films") {
         loadFilms()
-        getDiffRecordsOfFiles().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
+//        getDiffRecordsOfFiles().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
+        getDiffRecordsOfFiles().foreach(filmRecord => {
+          addFilm(filmRecord.name, filmRecord.category)
+          filmRecord.scoreHistory.foreach(scoreRecord => scoreFilm(filmRecord.name, scoreRecord.score, scoreRecord.comment))
+        })
         persistentFilms()
         isFilmsRepositoryCorrect(sampleFileName = filmsFileSampleAddition) should be (true)
       }
 
-      ignore("should succeed when add films and then load films") {
-        getDiffRecordsOfFiles().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
+      it("should succeed when add films and then load films") {
+        getDiffRecordsOfFiles().foreach(filmRecord => {
+          addFilm(filmRecord.name, filmRecord.category)
+          filmRecord.scoreHistory.foreach(scoreRecord => scoreFilm(filmRecord.name, scoreRecord.score, scoreRecord.comment))
+        })
         loadFilms()
         persistentFilms()
         isFilmsRepositoryCorrect(sampleFileName = filmsFileSampleAddition) should be (true)
-      }*/
+      }
     }
 
   }
@@ -276,16 +283,16 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
   private def isFilmsRepositoryCorrect(sampleFileName: String = filmsFileSample,
                                        targetFileName: String = filmsFileForPersistent) = {
-    val sampleContents = Source.fromFile(sampleFileName).getLines().toSet
-    val targetContents = Source.fromFile(targetFileName).getLines().toSet
+    val sampleContents = Source.fromFile(sampleFileName).getLines().filter("" != _).toSet
+    val targetContents = Source.fromFile(targetFileName).getLines().filter("" != _).toSet
     val intersectSet = targetContents intersect sampleContents
     (targetContents == intersectSet) && (sampleContents == intersectSet)
   }
 
   private def getDiffRecordsOfFiles(sampleFileName: String = filmsFileSample,
                                     targetFileName: String = filmsFileSampleAddition) = {
-    val sampleContents = Source.fromFile(sampleFileName).getLines().toSet
-    val targetContents = Source.fromFile(targetFileName).getLines().toSet
+    val sampleContents = Source.fromFile(sampleFileName).getLines().filter("" != _).toSet
+    val targetContents = Source.fromFile(targetFileName).getLines().filter("" != _).toSet
     ((sampleContents diff targetContents) ++ (targetContents diff sampleContents))
       .map(filmRepository.genFilmMetaStructure)
   }
