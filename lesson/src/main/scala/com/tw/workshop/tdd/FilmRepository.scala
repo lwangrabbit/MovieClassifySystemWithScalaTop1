@@ -15,9 +15,6 @@ trait FilmRepository {
 }
 
 class FilmRepositoryFile() extends FilmRepository{
-  val filmFormat = """([\w ]+)\|(\w+)(\|.*)*""".r
-  val filmScoreFormat = """(\d)(,[\w ]+)?""".r
-
   override def persistent(films: List[Film], fileName: String) = {
     val pw = new PrintWriter(fileName)
     films.foreach(film => pw.write(formatFilm(film) + "\n"))
@@ -29,32 +26,35 @@ class FilmRepositoryFile() extends FilmRepository{
   }
 
   def formatFilm(film: Film) = {
-    val scoreRecords = film.scoreHistory.map(scoreRecord =>
+    val filmScoreHistory = film.scoreHistory.map(scoreRecord =>
       if (ScoreCfg.defaultComment == scoreRecord.comment) scoreRecord.score
       else List(scoreRecord.score, scoreRecord.comment).mkString(separatorInScore)
     ).mkString(separator)
 
-    if (scoreRecords.isEmpty) List(film.name, film.category).mkString(separator)
-    else List(film.name, film.category, scoreRecords).mkString(separator)
+    if (filmScoreHistory.isEmpty) List(film.name, film.category).mkString(separator)
+    else List(film.name, film.category, filmScoreHistory).mkString(separator)
   }
 
   def genFilmMetaStructure(fileRecord: String) = {
+    val filmFormat = """([\w ]+)\|(\w+)(\|.*)*""".r
     var (filmName, filmCategory, filmScoreHistory) = ("", "", List[FilmScoreRecord]())
-    if (!fileRecord.equalsIgnoreCase("") && !fileRecord.endsWith(separator)) {
-    fileRecord match {
-        case filmFormat(name, category, score) => {
-          filmName = name
-          filmCategory = category
-          if (null != score) filmScoreHistory = genScoreRecords(score)
+    if (!fileRecord.equals("") && !fileRecord.endsWith(separator)) {
+      fileRecord match {
+          case filmFormat(name, category, score) => {
+            filmName = name
+            filmCategory = category
+            if (null != score) filmScoreHistory = genScoreRecords(score)
+          }
+          case _ => {}
         }
-        case _ => {}
-      }
     }
     new FilmStructureInRepository(filmName, filmCategory, filmScoreHistory)
   }
 
   private def genScoreRecords(scoreRecords: String) = {
-    scoreRecords.replaceFirst(separator, "-").replace("-" + separator, "").split(separator.toCharArray).toList.reverse.map(scoreRecord => {
+    val filmScoreFormat = """(\d)(,[\w ]+)?""".r
+    scoreRecords.replaceFirst(separator, "-").replace("-" + separator, "")
+      .split(separator.toCharArray).toList.reverse.map(scoreRecord => {
       scoreRecord match {
         case filmScoreFormat(score, comment) =>
           FilmScoreRecord(score.toInt, if (null == comment) ScoreCfg.defaultComment else comment.replaceFirst(separatorInScore, ""))
