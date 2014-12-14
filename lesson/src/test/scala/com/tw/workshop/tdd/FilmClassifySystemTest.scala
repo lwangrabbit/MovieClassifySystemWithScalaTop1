@@ -22,19 +22,19 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       it("should fail when film name contains invalid char ([^a-zA-Z0-9 ])") {
         val filmName = "The film with invalid char(#)"
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
-        isFilmExist(acquiredFilm) should be(false)
+        isFilmExist(acquiredFilm) should be (false)
       }
 
       it("should fail when film name is empty") {
         val filmName = ""
         val acquiredFilm = addFilm(filmName).getFilmByName(filmName)
-        isFilmExist(acquiredFilm) should be(false)
+        isFilmExist(acquiredFilm) should be (false)
       }
 
       it("should fail when film already existed") {
         val filmName = "The film already existed"
         val acquiredFilms = addFilm(filmName).addFilm(filmName).listFilms
-        acquiredFilms.length should be(1)
+        acquiredFilms.length should be (1)
         isFilmsContainName(acquiredFilms, filmName) should be (true)
       }
     }
@@ -43,8 +43,8 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       it("should succeed when film name is valid and unique") {
         val (originalFilmName, modifiedFilmName) = ("The original film name", "The modified film name")
         addFilm(originalFilmName).modifyFilmName(originalFilmName, modifiedFilmName)
-        isFilmExist(getFilmByName(originalFilmName)) should be(false)
-        isFilmExist(getFilmByName(modifiedFilmName)) should be(true)
+        isFilmExist(getFilmByName(originalFilmName)) should be (false)
+        isFilmExist(getFilmByName(modifiedFilmName)) should be (true)
       }
 
       it("should fail when film name is valid but existed") {
@@ -52,9 +52,9 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         val acquiredFilms = addFilm(existedFilmName).addFilm(toRenameFilmName)
                            .modifyFilmName(toRenameFilmName, existedFilmName)
                            .listFilms
-        acquiredFilms.length should be(2)
-        isFilmExist(getFilmByName(existedFilmName)) should be(true)
-        isFilmExist(getFilmByName(toRenameFilmName)) should be(true)
+        acquiredFilms.length should be (2)
+        isFilmExist(getFilmByName(existedFilmName)) should be (true)
+        isFilmExist(getFilmByName(toRenameFilmName)) should be (true)
       }
     }
 
@@ -166,7 +166,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       it("should succeed when score film many times") {
         val (filmName, filmScore1, filmComment1, filmScore2, filmComment2) = ("The film to score", 1, "The film comment 1", 2, "The film comment 2")
         addFilm(filmName).scoreFilm(filmName, filmScore1, filmComment1).scoreFilm(filmName, filmScore2, filmComment2)
-        getAverageScoreOfFilm(getFilmByName(filmName)) should be(1.5)
+        getAverageScoreOfFilm(getFilmByName(filmName)) should be (1.5)
         isFilmContainScoreAndComment(filmName, filmScore1, filmComment1) should be (true)
         isFilmContainScoreAndComment(filmName, filmScore2, filmComment2) should be (true)
       }
@@ -174,7 +174,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       it("should have 2 decimal digits if necessary") {
         val (filmName, filmScore1, filmScore2, filmScore3) = ("The film to score", 1, 3, 3)
         addFilm(filmName).scoreFilm(filmName, filmScore1).scoreFilm(filmName, filmScore2).scoreFilm(filmName, filmScore3)
-        getAverageScoreOfFilm(getFilmByName(filmName)) should be(2.33)
+        getAverageScoreOfFilm(getFilmByName(filmName)) should be (2.33)
       }
 
       it("should no score when not score film") {
@@ -257,7 +257,6 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         loadFilms(filmsFileSampleIllFormed).persistentFilms()
         isFilmsRepositoryCorrect() should be (true)
       }
-
     }
 
   }
