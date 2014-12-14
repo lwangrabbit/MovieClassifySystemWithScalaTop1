@@ -218,37 +218,40 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
     }
 
-/*    describe("Film Repository|") {
+    describe("Film Repository|") {
       it("should succeed when persistent films") {
-        getFilmMetaRecords().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
+        getFilmMetaRecords().foreach(filmRecord => {
+          addFilm(filmRecord.name, filmRecord.category)
+          filmRecord.scoreHistory.foreach(scoreRecord => scoreFilm(filmRecord.name, scoreRecord.score, scoreRecord.comment) )
+        })
         persistentFilms()
         isFilmsRepositoryCorrect() should be (true)
       }
 
-      it("should succeed when load films") {
+/*      ignore("should succeed when load films") {
         loadFilms().persistentFilms()
         isFilmsRepositoryCorrect() should be (true)
       }
 
-      it("should succeed when load films with ill-formed") {
+      ignore("should succeed when load films with ill-formed") {
         loadFilms(filmsFileSampleIllFormed).persistentFilms()
         isFilmsRepositoryCorrect() should be (true)
       }
 
-      it("should succeed when load films and then add films") {
+      ignore("should succeed when load films and then add films") {
         loadFilms()
         getDiffRecordsOfFiles().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
         persistentFilms()
         isFilmsRepositoryCorrect(sampleFileName = filmsFileSampleAddition) should be (true)
       }
 
-      it("should succeed when add films and then load films") {
+      ignore("should succeed when add films and then load films") {
         getDiffRecordsOfFiles().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
         loadFilms()
         persistentFilms()
         isFilmsRepositoryCorrect(sampleFileName = filmsFileSampleAddition) should be (true)
-      }
-    }*/
+      }*/
+    }
 
   }
 

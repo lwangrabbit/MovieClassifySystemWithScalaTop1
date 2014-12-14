@@ -37,13 +37,29 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
   }
 
   def loadFilms(fileName: String): Unit = {
-    filmRepository.load(fileName).foreach(f => {
-      if (isFilmValid(f.name, f.category)) {
-        if (isFilmScoreAndCommentValid(f.score, "") || ScoreCfg.defaultUnScore == f.score)
-          films = new Film(f.name, f.category).addScore(f.score, "") :: films
+    filmRepository.load(fileName).foreach(filmRecord => {
+      if (isFilmValid(filmRecord.name, filmRecord.category)) {
+        if (filmRecord.scoreHistory.forall(scoreRecord => {
+          isFilmScoreAndCommentValid(scoreRecord.score, scoreRecord.comment)
+        })) {
+          val newFilm = new Film(filmRecord.name, filmRecord.category)
+          filmRecord.scoreHistory.foreach(rec => newFilm.addScore(rec.score, rec.comment) )
+          films = newFilm :: films
+        }
+//        if (isFilmScoreAndCommentValid(filmRecord.score, "") || ScoreCfg.defaultUnScore == filmRecord.score)
+//          films = new Film(filmRecord.name, filmRecord.category).addScore(filmRecord.score, "") :: films
       }
     })
   }
+
+//  def loadFilms(fileName: String): Unit = {
+//    filmRepository.load(fileName).foreach(f => {
+//      if (isFilmValid(f.name, f.category)) {
+//        if (isFilmScoreAndCommentValid(f.score, "") || ScoreCfg.defaultUnScore == f.score)
+//          films = new Film(f.name, f.category).addScore(f.score, "") :: films
+//      }
+//    })
+//  }
 
   def getFilmByName(name: String) = { films.find(name == _.name) }
 
