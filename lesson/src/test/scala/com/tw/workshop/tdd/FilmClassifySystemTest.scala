@@ -233,14 +233,8 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         isFilmsRepositoryCorrect() should be (true)
       }
 
-//      ignore("should succeed when load films with ill-formed") {
-//        loadFilms(filmsFileSampleIllFormed).persistentFilms()
-//        isFilmsRepositoryCorrect() should be (true)
-//      }
-
       it("should succeed when load films and then add films") {
         loadFilms()
-//        getDiffRecordsOfFiles().foreach(rec => { addFilm(rec.name, rec.category).scoreFilm(rec.name, rec.score) } )
         getDiffRecordsOfFiles().foreach(filmRecord => {
           addFilm(filmRecord.name, filmRecord.category)
           filmRecord.scoreHistory.foreach(scoreRecord => scoreFilm(filmRecord.name, scoreRecord.score, scoreRecord.comment))
@@ -258,6 +252,12 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         persistentFilms()
         isFilmsRepositoryCorrect(sampleFileName = filmsFileSampleAddition) should be (true)
       }
+
+      it("should succeed when load films with ill-formed") {
+        loadFilms(filmsFileSampleIllFormed).persistentFilms()
+        isFilmsRepositoryCorrect() should be (true)
+      }
+
     }
 
   }
@@ -291,8 +291,8 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
 
   private def getDiffRecordsOfFiles(sampleFileName: String = filmsFileSample,
                                     targetFileName: String = filmsFileSampleAddition) = {
-    val sampleContents = Source.fromFile(sampleFileName).getLines().filter("" != _).toSet
-    val targetContents = Source.fromFile(targetFileName).getLines().filter("" != _).toSet
+    val sampleContents = Source.fromFile(sampleFileName).getLines().toSet
+    val targetContents = Source.fromFile(targetFileName).getLines().toSet
     ((sampleContents diff targetContents) ++ (targetContents diff sampleContents))
       .map(filmRepository.genFilmMetaStructure)
   }
