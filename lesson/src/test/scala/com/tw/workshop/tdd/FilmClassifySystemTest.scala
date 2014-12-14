@@ -228,11 +228,11 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         isFilmsRepositoryCorrect() should be (true)
       }
 
-/*      ignore("should succeed when load films") {
+      it("should succeed when load films") {
         loadFilms().persistentFilms()
         isFilmsRepositoryCorrect() should be (true)
       }
-
+/*
       ignore("should succeed when load films with ill-formed") {
         loadFilms(filmsFileSampleIllFormed).persistentFilms()
         isFilmsRepositoryCorrect() should be (true)
