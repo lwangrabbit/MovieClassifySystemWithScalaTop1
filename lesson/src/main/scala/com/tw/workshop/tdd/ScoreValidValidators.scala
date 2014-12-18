@@ -1,10 +1,5 @@
 package com.tw.workshop.tdd
 
-/**
- * Created by root on 14-12-7.
- */
-
-
 class ScoreValidValidator() extends Validator[Int] {
   override def validate(score: Int) = { ScoreCfg.scores.contains(score) }
 }

@@ -3,9 +3,6 @@ package com.tw.workshop.tdd
 import org.scalatest.{BeforeAndAfterEach, Matchers, FunSpec}
 import java.io.PrintWriter
 
-/**
- * Created by root on 14-12-6.
- */
 trait FilmClassifySystemTestPrepare extends FilmClassifySystemTestInit {
   def addFilm(name: String, category: String = defaultCategory) = {
     filmSystem.addFilm(name, category)
@@ -48,7 +45,6 @@ trait FilmClassifySystemTestPrepare extends FilmClassifySystemTestInit {
   def listFilmByCategory(category: String) = { filmSystem.listFilmByCategory(category) }
 
   def getFilmMetaRecords(fileName: String = filmsFileSample) = { filmRepository.load(fileName) }
-
 }
 
 trait FilmClassifySystemTestInit extends FunSpec with Matchers with BeforeAndAfterEach {

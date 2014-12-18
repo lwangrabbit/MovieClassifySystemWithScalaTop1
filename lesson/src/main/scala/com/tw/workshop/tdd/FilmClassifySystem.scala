@@ -1,9 +1,5 @@
 package com.tw.workshop.tdd
 
-
-/**
- * Created by root on 14-12-6.
- */
 class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepository) {
   private var films: List[Film] = List()
   private val validators = filmValidator.validators
@@ -66,12 +62,4 @@ class FilmClassifySystem(filmValidator: FilmValidator, filmRepository: FilmRepos
   private def isFilmScoreValid(score: Int, comment: String) = {
     validators("score")(score.toString, films) && validators("comment")(comment, films)
   }
-
 }
-
-
-
-
-
-
-

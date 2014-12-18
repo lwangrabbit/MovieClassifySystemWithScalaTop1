@@ -3,9 +3,6 @@ package com.tw.workshop.tdd
 import java.io.PrintWriter
 import scala.io.Source
 
-/**
- * Created by root on 14-12-7.
- */
 trait FilmRepository {
   def persistent(films: List[Film], fileName: String)
   def load(fileName: String): List[FilmStructureInRepository]

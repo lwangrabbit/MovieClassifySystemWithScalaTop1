@@ -3,15 +3,10 @@ package com.tw.workshop.tdd
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import scala.io.Source
-import FilmClassifySystemExtensions._
 
-/**
- * Created by root on 12/6/14.
- */
 @RunWith(classOf[JUnitRunner])
 class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
   describe("Film Classify System |") {
-
     describe("Add Film |") {
       it("should succeed when film name is valid") {
         val filmName = "The film with valid name"
@@ -109,19 +104,11 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
           addFilm(filmName, filmCategory)})
 
         listFilms.length should be (filmParas.length)
-
-        var acquiredFilms = listFilmByCategory("OTHER")
-        acquiredFilms.length should be (1)
-        isFilmsContainName(acquiredFilms, "The film other") should be (true)
-
-        acquiredFilms = listFilmByCategory("HUMOR")
-        acquiredFilms.length should be (2)
-        isFilmsContainName(acquiredFilms, "The film humor 1") should be (true)
-        isFilmsContainName(acquiredFilms, "The film humor 2") should be (true)
-
-        acquiredFilms = listFilmByCategory("LOVE")
-        acquiredFilms.length should be (1)
-        isFilmsContainName(acquiredFilms, "The film love") should be (true)
+        filmParas.foreach( para => {
+          val (filmName, filmCategory) = (para._1, para._2)
+          val acquiredFilms = listFilmByCategory(filmCategory)
+          isFilmsContainName(acquiredFilms, filmName) should be (true)
+        })
       }
 
       it("should empty when category is valid and without film") {
@@ -138,7 +125,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
     }
 
     describe("Film Score |") {
-      it("should succeed when score is valid and no comment") {
+      it("should succeed when score is valid and without comment") {
         defaultScores.foreach(score => {
           val (filmName, filmScore) = ("The film " + score, score)
           addFilm(filmName).scoreFilm(filmName, filmScore)
@@ -157,7 +144,7 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       }
 
       it("should fail when comment contains invalid char ([^a-zA-Z0-9 ])") {
-        val (filmName, filmScore, filmComment) = ("The film to score", 1, "The film comment $")
+        val (filmName, filmScore, filmComment) = ("The film to score", 1, "The film comment $")  //ToDo: MagicNumber v.s. OverDesign
         addFilm(filmName).scoreFilm(filmName, filmScore, filmComment)
         getAverageScoreOfFilm(getFilmByName(filmName)) should be (defaultUnScore)
         isFilmContainScoreAndComment(filmName, filmScore, filmComment) should be (false)
@@ -182,13 +169,11 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         addFilm(filmName)
         getAverageScoreOfFilm(getFilmByName(filmName)) should be (defaultUnScore)
       }
-
     }
 
     describe("List Film |") {
       it("should asc when list score sort by name") {
-        List(("The film a to list", 1), ("The film b to list", 2),
-             ("The film c to list", 3), ("The film d to list", 4))
+        List(("The film a to list", 1), ("The film b to list", 2), ("The film c to list", 3), ("The film d to list", 4))
           .foreach( para => {
             val (filmName, filmScore) = (para._1, para._2)
             addFilm(filmName).scoreFilm(filmName, filmScore)})
@@ -202,20 +187,18 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
       }
 
       it("should desc when list score sort by score") {
-        List(("The film a to list", 1), ("The film b to list", 2),
-             ("The film c to list", 3), ("The film d to list", 4))
+        List(("The film a to list", 1), ("The film b to list", 2), ("The film c to list", 3), ("The film d to list", 4))
           .foreach( para => {
             val (filmName, filmScore) = (para._1, para._2)
             addFilm(filmName).scoreFilm(filmName, filmScore)})
 
         val acquiredFilms = listFilmsSortByScore
         acquiredFilms.length should be(4)
-        acquiredFilms(0).averageScore should be(4.0)
-        acquiredFilms(1).averageScore should be(3.0)
-        acquiredFilms(2).averageScore should be(2.0)
-        acquiredFilms(3).averageScore should be(1.0)
+        acquiredFilms(0).name should be("The film d to list")
+        acquiredFilms(1).name should be("The film c to list")
+        acquiredFilms(2).name should be("The film b to list")
+        acquiredFilms(3).name should be("The film a to list")
       }
-
     }
 
     describe("Film Repository|") {
@@ -258,7 +241,6 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
         isFilmsRepositoryCorrect() should be (true)
       }
     }
-
   }
 
   private def getNameOfFilm(film: Option[Film]) = film.fold("")(_.name)
@@ -279,7 +261,6 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
     getScoreHistoryOfFilm(getFilmByName(name)).exists(rec => (score == rec.score && comment == rec.comment))
   }
 
-
   private def isFilmsRepositoryCorrect(sampleFileName: String = filmsFileSample,
                                        targetFileName: String = filmsFileForPersistent) = {
     val sampleContents = Source.fromFile(sampleFileName).getLines().filter("" != _).toSet
@@ -295,6 +276,4 @@ class FilmClassifySystemTest extends FilmClassifySystemTestPrepare {
     ((sampleContents diff targetContents) ++ (targetContents diff sampleContents))
       .map(filmRepository.genFilmMetaStructure)
   }
-
 }
-
