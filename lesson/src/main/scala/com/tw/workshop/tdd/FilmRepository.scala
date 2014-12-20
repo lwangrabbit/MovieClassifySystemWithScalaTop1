@@ -6,12 +6,12 @@ import scala.io.Source
 trait FilmRepository {
   def persistent(films: List[Film], fileName: String)
   def load(fileName: String): List[FilmStructureInRepository]
-
-  val separator = "|"
-  val separatorInScore = ","
 }
 
 class FilmRepositoryFile() extends FilmRepository{
+  val separator = "|"
+  val separatorInScore = ","
+
   override def persistent(films: List[Film], fileName: String) = {
     val pw = new PrintWriter(fileName)
     films.foreach(film => pw.write(formatFilm(film) + "\n"))
@@ -40,8 +40,7 @@ class FilmRepositoryFile() extends FilmRepository{
           case filmFormat(name, category, score) => {
             filmName = name
             filmCategory = category
-            if (null != score) filmScoreHistory = genScoreRecords(score)
-          }
+            if (null != score) filmScoreHistory = genScoreRecords(score) }
           case _ => {}
         }
     }
@@ -50,8 +49,7 @@ class FilmRepositoryFile() extends FilmRepository{
 
   private def genScoreRecords(scoreRecords: String) = {
     val filmScoreFormat = """(\d)(,[\w ]+)?""".r
-    scoreRecords.replaceFirst(separator, "-").replace("-" + separator, "")
-      .split(separator.toCharArray).toList.reverse.map(scoreRecord => {
+    scoreRecords.replaceFirst("\\|", "").split(separator.toCharArray).toList.reverse.map(scoreRecord => {
       scoreRecord match {
         case filmScoreFormat(score, comment) =>
           FilmScoreRecord(score.toInt, if (null == comment) ScoreCfg.defaultComment else comment.replaceFirst(separatorInScore, ""))
